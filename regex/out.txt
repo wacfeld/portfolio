@@ -1,0 +1,204 @@
+program start
+parsing...
+  done
+decoding...
+  done
+matching...
+get_len...
+in get_len
+colllour
+
+  done
+1
+2
+in get_len
+color colour collour collor
+
+in get_len
+colllour
+
+in get_len
+000000?0
+
+3
+num_pos 1
+in print_pn
+olor colour collour collor/ olllour/ 00000?0/ 
+done
+
+recursing...
+get_len...
+in get_len
+olllour
+
+  done
+1
+2
+in get_len
+olor colour collour collor
+
+in get_len
+olllour
+
+in get_len
+00000?0
+
+3
+num_pos 1
+in print_pn
+lor colour collour collor/ lllour/ 0000?0/ 
+done
+
+recursing...
+get_len...
+in get_len
+lllour
+
+  done
+1
+2
+in get_len
+lor colour collour collor
+
+in get_len
+lllour
+
+in get_len
+0000?0
+
+3
+num_pos 1
+in print_pn
+or colour collour collor/ llour/ 000?0/ 
+done
+
+recursing...
+get_len...
+in get_len
+llour
+
+  done
+1
+2
+in get_len
+or colour collour collor
+
+in get_len
+llour
+
+in get_len
+000?0
+
+3
+num_pos 1
+in print_pn
+r colour collour collor/ lour/ 00?0/ 
+done
+
+recursing...
+get_len...
+in get_len
+lour
+
+  done
+1
+2
+in get_len
+r colour collour collor
+
+in get_len
+lour
+
+in get_len
+00?0
+
+3
+num_pos 1
+in print_pn
+ colour collour collor/ our/ 0?0/ 
+done
+
+recursing...
+get_len...
+in get_len
+our
+
+  done
+1
+2
+in get_len
+ colour collour collor
+
+in get_len
+our
+
+in get_len
+0?0
+
+3
+num_pos 1
+in print_pn
+colour collour collor/ ur/ ?0/ 
+done
+
+recursing...
+get_len...
+in get_len
+ur
+
+  done
+1
+2
+in get_len
+ur
+
+in get_len
+?0
+
+3
+num_pos 1
+in print_pn
+colour collour collor/ r/ 0/ 
+done
+
+recursing...
+get_len...
+in get_len
+r
+
+  done
+1
+2
+in get_len
+colour collour collor
+
+in get_len
+r
+
+in get_len
+0
+
+3
+num_pos 1
+in print_pn
+olour collour collor/ / / 
+done
+
+recursing...
+get_len...
+in get_len
+
+
+out
+out
+out
+out
+out
+out
+out
+out
+  done
+
+
+
+match

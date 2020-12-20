@@ -1,0 +1,16 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/381d6ba/
+cp_str	main.cpp	/^char * cp_str(char * in)$/;"	f	typeref:typename:char *
+get_adjlen	main.cpp	/^int get_adjlen(std::string pat)$/;"	f	typeref:typename:int
+get_len	main.cpp	/^int get_len(char * str)$/;"	f	typeref:typename:int
+has_match	main.cpp	/^bool has_match(char * txt, char * pln, char * sym)$/;"	f	typeref:typename:bool
+is_sym	main.cpp	/^bool is_sym(char c)$/;"	f	typeref:typename:bool
+main	main.cpp	/^int main()$/;"	f	typeref:typename:int
+parse_pat	main.cpp	/^char * parse_pat(std::string pat)$/;"	f	typeref:typename:char *
+trim_str	main.cpp	/^char * trim_str(char * str)$/;"	f	typeref:typename:char *
