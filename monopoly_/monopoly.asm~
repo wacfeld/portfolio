@@ -1,0 +1,309 @@
+;------------------------------------------------------------------------------
+; NAME:         monopoly.asm
+; TYPE:         main
+; DESCRIPTION:  plays monopoly to determine the most frequented squares
+; BUILD:        nasm -f elf -g -F dwarf monopoly.asm -l monopoly.lst
+;               ld -o monopoly monopoly.o
+;------------------------------------------------------------------------------ 
+
+section .data
+
+; general variables
+N_SWAP  equ 100     ; how many swaps per shuffle
+N_PLAY  equ 4       ; how many players
+N_ROUND equ 100000  ; how many rounds to play
+N_GAME  equ 100     ; hom many games to play
+
+; destinations
+GO      equ 0       ; start
+JAIL    equ 10      ; jail
+
+another equ 0
+; modes
+RLT     equ 0       ; relative
+AST     equ 1       ; absolute
+FOR     equ 2       ; force (AST, and causes turn to end)
+NEX     equ 3       ; next thing of some type
+
+; next locations
+X_UTIL  equ 0       ; for NEX,UTIL
+X_RAIL  equ 1       ; for NEX,RAIL
+
+; sources; do not change order - other things dependent on it
+spec:
+comm_s  db 2,17,33          ; community chests, s=spot
+E_COMM  equ $-spec          ; end of comm_s
+chan_s  db 7,22,36          ; chances
+E_CHAN  equ $-spec          ; end of chances
+go_jail db 30               ; go to jail
+E_GJAIL equ $-spec          ; end of go to jail
+E_SPEC  equ $-spec          ; end of spec
+
+
+; extra numbers over 40 guarantee there will always be a "next" spot to jump to, modulo'd later
+util    db 12,28,52         ; utilities
+rail    db 5,15,25,35,45    ; railroads
+
+; cards, access them as words, and split in half to get mode,amount (length of 16 is hardcoded elsewhere, be careful)
+; 14 nothing, 1 go to go, 1 go to jail
+comm_c  db RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, AST,GO, FOR,JAIL
+N_COMM_C    equ $-comm_c
+; 6 nothing, back 3, go to jail, go to go, go to 5, go to 39, go to 11, go to 24, next rail, next rail, next util
+chan_c  db RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,-3, FOR,JAIL, AST,GO, AST,5, AST,39, AST,11, AST,24, NEX,X_RAIL, NEX,X_RAIL, NEX,X_UTIL
+N_CHAN_C    equ $-chan_c
+
+top_comm    db 0    ; top of comm chest
+top_chan    db 0    ; top of chance
+
+
+section .bss
+
+N_FREQ  equ 40      ; how many squares
+freq    resd N_FREQ ; frequencies for all monopoly squares
+
+string  resb 34     ; string to print out 32 (binary) bit numbers, + a newline
+
+play    resb N_PLAY ; player positions (init to 0=GO at runtime)
+
+
+section .text
+
+global _start
+extern init,msquared
+extern bin_str
+extern seed
+
+;------------------------------------------------------------------------------
+; PROCEDURE:    shuf
+; IN:           eax: address of deck, ecx: times to swap
+; OUT:          none
+; MODIFIES:     eax,ecx
+; CALLS:        msquared
+; DETAILS:      shuffles a deck by swapping random elements a number of times
+;               hardcoded to deal with 16 card decks, since i'm lazy
+shuf:
+        push ebx        ; save ebx,edx,edi
+        push edx
+        push edi
+        push ecx
+
+        mov edi,eax     ; move deck address to edi
+
+; get random numbers, corresponding cards, swap, repeat
+        mov ecx,N_SWAP  ; put swap counter in ecx
+.swap:  call msquared   ; put first rand num in eax
+        mov ebx,eax     ; put first rand in ebx
+        call msquared   ; put second rand num in eax
+        shr eax,28      ; get 0-16 in eax
+        shr ebx,28      ; get 0-16 in ebx
+
+; swap cards, repeat
+        mov dx,word [edi+eax*2]   ; temp store card 1 in edx
+        xchg dx,word [edi+ebx*2]  ; card 1 into new spot, card 2 into temp
+        mov word [edi+eax*2],dx   ; card 2 into new spot
+        loop .swap              ; until ecx 0, repeat
+
+        pop ecx
+        pop edi         ; restore edi,edx,ebx
+        pop edx
+        pop ebx
+
+        ret             ; return
+; end of proc shuf
+
+
+;------------------------------------------------------------------------------
+; PROCEDURE:    turn
+; IN:           eax: address of player
+; OUT:          none
+; MODIFIES:     none
+; CALLS:        msquared
+; DETAILS:      encapsulates dice roll, movement, card pickup, special directions, etc. logs landed on squares
+turn:
+        pushad          ; save regs
+
+        mov ecx,3       ; start double counter
+        mov edi,eax     ; address of player into edi
+
+; roll dice
+.roll:   call msquared   ; first rand in eax
+        mov ebx,eax     ; first rand in ebx
+        call msquared   ; second rand in eax
+        shr eax,29      ; 0-8 in eax
+        shr ebx,29      ; 0-8 in ebx
+        cmp eax,6       ; check die 1 for valid number
+        jb .noadj1      ; if valid, skip adjustment for die 1
+        sub eax,6       ; make die 1 0-5
+.noadj1:cmp ebx,6       ; check die 2 for valid number
+        jb .noadj2      ; if valid, skip adjustment for die 2
+        sub ebx,6       ; make die 2 0-5
+.noadj2:inc eax         ; make die 1 1-6
+        inc ebx         ; make die 2 1-6
+
+; log if double
+.logdub:cmp eax,ebx     ; check dies for double
+        jne .nodub      ; if not double, don't care
+        dec ecx         ; decrement double counter
+        jz .jail      ; if 3 doubles, log, go to jail, end turn
+        mov ebp,1       ; signal double
+        jmp .setup      ; go to setup for moving
+.nodub: mov ebp,0       ; signal no double
+
+; set up move based on dice
+.setup: add al,bl       ; put dice sum in al
+        mov ah,RLT      ; tell mover to move relatively
+
+; make move; if special, set up next move
+; switch case for RLT,AST,FOR,NEX
+.move:  cmp ah,RLT      ; if relative...
+        je .rel         ; move relative
+        cmp ah,AST      ; if absolute...
+        je .abs         ; move absolute
+        cmp ah,FOR      ; if force...
+        je .jail        ; move force, end turn
+        cmp ah,NEX      ; if next...
+        je .nex         ; move next
+
+; go to spot, with given method, and log change
+.rel:   cmp al,0            ; if RLT,0...
+        je .cdub            ; then move chain done, check double
+        add byte [edi],al   ; add relative amount to position
+        jmp .modlog         ; modulo, log
+.abs:   mov byte [edi],al   ; set position to absolute amount
+        jmp .modlog         ; modulo, log
+; figure out which type of next, then iterate through list of type, move to next one
+.nex:   mov bl,byte [edi]   ; put player in bl
+        mov edx,-1          ; set counter for upcoming list iterating (-1 since increments first)
+        cmp al,X_UTIL       ; if next util...
+        je .xutil           ; move to next util
+        cmp al,X_RAIL       ; if next rail...
+        je .xrail           ; move to next rail
+; iterate through list of rails/utils until greater than player, move to that one
+.xutil: 
+        inc edx                         ; increment util counter
+        cmp byte [util+edx],bl          ; compare current util with player
+        jna .xutil                      ; if not above, check next one
+        mov bl,byte [util+edx]          ; put the util in bl
+        mov byte [edi],bl               ; if greater, set player to that
+        jmp .modlog                     ; modulo, log
+.xrail:
+        inc edx                         ; increment rail counter
+        cmp byte [rail+edx],bl          ; compare current rail with player
+        jna .xrail                      ; if not above, check next one
+        mov bl,byte [rail+edx]          ; put the rail in bl
+        mov byte [edi],bl               ; if greater, set player to that
+        jmp .modlog                     ; modulo, log
+
+; module by 40, then record new position
+.modlog:
+        cmp byte [edi],40       ; compare player with 40
+        jb .nomod               ; if below, don't modulo
+        sub byte [edi],40       ; we are certain it stays below 80, so just subtract once
+.nomod: xor eax,eax             ; zero eax for addressing
+        mov al, byte [edi]      ; put player in eax, for addressing
+        inc dword [freq+eax*4]  ; log new spot
+
+; check if special square
+        mov edx,E_SPEC+1        ; set counter for special, twice past last special square
+.cspec: dec edx                 ; decrement special square counter (beforehand since twice past last square)
+        jz .cdub                ; (counter ran out) not special, check if double
+        cmp al,byte [spec+edx-1]; compare player with special square (eax contains player from .modlog; -1 because starts past last square)
+        jne .cspec              ; try again
+
+; found a special square, check type
+.tspec: xor ebx,ebx     ; make ebx 0 for addressing later
+        dec edx         ; .cspec checked square one less, so adjust
+        cmp edx,E_COMM  ; compare player with end of comm chest
+        jb .d_comm      ; if on comm square, draw comm
+        cmp edx,E_CHAN  ; compare player with end of chances
+        jb .d_chan      ; if on chan square, draw chan
+        cmp edx,E_GJAIL ; compare player with go to jail
+        jb .jail        ; if on go-to-jail square, go to jail
+.d_comm:mov bl,byte [top_comm]          ; top of comm deck for addressing
+        mov ax,word [comm_c+ebx*2]      ; get top of comm deck into ax
+        xchg al,ah                      ; since little endian, swap
+        inc byte [top_comm]             ; rotate top of comm_c
+        and byte [top_comm],0b1111      ; modulo top_comm by 16
+        jmp .move                       ; move based off card
+.d_chan:mov bl,byte [top_chan]          ; top of chan deck for addressing
+        mov ax,word [chan_c+ebx*2]      ; get top of chan deck into ax
+        xchg al,ah                      ; since little endian, swap
+        inc byte [top_chan]             ; rotate top of chan_c
+        and byte [top_chan],0b1111      ; modulo top_chan by 16
+        jmp .move                       ; move based off card
+
+; if double, loop back, else end turn
+.cdub:  cmp ebp,0               ; check if no double
+        je .end                 ; if no double, end turn
+        jmp .roll               ; if double, roll again
+
+; go to jail; do not fall through here!
+.jail:  mov byte [edi],JAIL ; go to jail
+        inc dword [freq+JAIL*4]  ; log jail 
+
+.end:   popad       ; restore regs
+        ret         ; end turn
+; end of proc turn
+
+
+_start:
+; shuffle two decks of cards
+       call init       ; set seed to time
+        
+; DEBUGGING CODE STARTS
+        mov eax,[seed]  ; seed in eax
+        mov ebx,string  ; address of string
+        call bin_str    ; put eax's bin string in variable string
+        mov byte [ebx+32],10
+        mov byte [ebx+33],10
+        mov ecx,ebx
+        mov eax,4
+        mov ebx,1
+        mov edx,34
+        int 0x80
+
+
+; DEBUGGING CODE ENDS
+
+
+        mov ecx,N_SWAP  ; how many times to swap
+        mov eax,comm_c  ; address of comm chest
+        call shuf       ; shuffle comm chest
+        mov ecx,N_SWAP  ; how many times to swap
+        mov eax,chan_c  ; address of chances
+        call shuf       ; shuffle chances
+        
+; play N_GAME games with N_ROUND rounds with N_PLAY players
+        mov ebx,N_GAME  ; counter for games
+.game:  mov edx,N_ROUND ; counter for rounds
+.round: mov ecx,N_PLAY  ; counter for players (used more often, put in ecx)
+.turn:  lea eax,[play+ecx-1]    ; zero indexed address of player into eax
+        call turn       ; make that player have their turn
+        loop .turn      ; decrement->next player, repeat process, if 0, reset turn
+        dec edx         ; 1 round done
+        jnz .round      ; if not done all rounds, repeat
+        dec ebx         ; 1 game done
+        jnz .game       ; if not done all games, repeat
+
+; print out frequencies
+; get string from frequency
+        mov ebp,0       ; set freq index to 0
+        mov byte [string+32],10     ; put newline at end of string
+p_freq: mov eax,dword [freq+ebp*4]  ; put next frequency in eax        
+        mov ebx,string  ; put string address in ebx
+        call bin_str    ; put eax's bin string in variable string
+; setup sys_write, call
+        mov ecx,ebx     ; put buffer for string in ecx
+        mov eax,4       ; sys_write
+        mov ebx,1       ; stdout
+        mov edx,33      ; write 32 chars + newline
+        int 0x80        ; call sys_write
+
+        inc ebp         ; inc freq index
+        cmp ebp,32      ; cmp freq index to 32
+        jb p_freq       ; if freq below 32, repeat
+
+exit:
+        mov eax,1       ; sys_exit
+        mov ebx,0       ; exit code 0
+        int 0x80        ; exit

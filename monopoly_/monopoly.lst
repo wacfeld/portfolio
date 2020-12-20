@@ -1,0 +1,315 @@
+     1                                  ;------------------------------------------------------------------------------
+     2                                  ; NAME:         monopoly.asm
+     3                                  ; TYPE:         main
+     4                                  ; DESCRIPTION:  plays monopoly to determine the most frequented squares
+     5                                  ; BUILD:        nasm -f elf -g -F dwarf monopoly.asm -l monopoly.lst
+     6                                  ;               ld -o monopoly monopoly.o
+     7                                  ;------------------------------------------------------------------------------ 
+     8                                  
+     9                                  section .data
+    10                                  
+    11                                  ; general variables
+    12                                  N_SWAP  equ 1000     ; how many swaps per shuffle
+    13                                  N_PLAY  equ 4       ; how many players
+    14                                  N_ROUND equ 1000000  ; how many rounds to play
+    15                                  N_GAME  equ 100     ; hom many games to play
+    16                                  
+    17                                  ; destinations
+    18                                  GO      equ 0       ; start
+    19                                  JAIL    equ 10      ; jail
+    20                                  
+    21                                  another equ 0
+    22                                  ; modes
+    23                                  RLT     equ 0       ; relative
+    24                                  AST     equ 1       ; absolute
+    25                                  FOR     equ 2       ; force (AST, and causes turn to end)
+    26                                  NEX     equ 3       ; next thing of some type
+    27                                  
+    28                                  ; next locations
+    29                                  X_UTIL  equ 0       ; for NEX,UTIL
+    30                                  X_RAIL  equ 1       ; for NEX,RAIL
+    31                                  
+    32                                  ; sources; do not change order - other things dependent on it
+    33                                  spec:
+    34 00000000 021121                  comm_s  db 2,17,33          ; community chests, s=spot
+    35                                  E_COMM  equ $-spec          ; end of comm_s
+    36 00000003 071624                  chan_s  db 7,22,36          ; chances
+    37                                  E_CHAN  equ $-spec          ; end of chances
+    38 00000006 1E                      go_jail db 30               ; go to jail
+    39                                  E_GJAIL equ $-spec          ; end of go to jail
+    40                                  E_SPEC  equ $-spec          ; end of spec
+    41                                  
+    42                                  
+    43                                  ; extra numbers over 40 guarantee there will always be a "next" spot to jump to, modulo'd later
+    44 00000007 0C1C34                  util    db 12,28,52         ; utilities
+    45 0000000A 050F19232D              rail    db 5,15,25,35,45    ; railroads
+    46                                  
+    47                                  ; cards, access them as words, and split in half to get mode,amount (length of 16 is hardcoded elsewhere, be careful)
+    48                                  ; 14 nothing, 1 go to go, 1 go to jail
+    49 0000000F 000000000000000000-     comm_c  db RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, AST,GO, FOR,JAIL
+    49 00000018 000000000000000000-
+    49 00000021 000000000000000000-
+    49 0000002A 000100020A         
+    50                                  N_COMM_C    equ $-comm_c
+    51                                  ; 6 nothing, back 3, go to jail, go to go, go to 5, go to 39, go to 11, go to 24, next rail, next rail, next util
+    52 0000002F 000000000000000000-     chan_c  db RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,0, RLT,-3, FOR,JAIL, AST,GO, AST,5, AST,39, AST,11, AST,24, NEX,X_RAIL, NEX,X_RAIL, NEX,X_UTIL
+    52 00000038 00000000FD020A0100-
+    52 00000041 01050127010B011803-
+    52 0000004A 0103010300         
+    53                                  N_CHAN_C    equ $-chan_c
+    54                                  
+    55 0000004F 00                      top_comm    db 0    ; top of comm chest
+    56 00000050 00                      top_chan    db 0    ; top of chance
+    57                                  
+    58                                  
+    59                                  section .bss
+    60                                  
+    61                                  N_FREQ  equ 40      ; how many squares
+    62 00000000 <res 000000A0>          freq    resd N_FREQ ; frequencies for all monopoly squares
+    63                                  
+    64 000000A0 <res 00000022>          string  resb 34     ; string to print out 32 (binary) bit numbers, + a newline
+    65                                  
+    66 000000C2 <res 00000004>          play    resb N_PLAY ; player positions (init to 0=GO at runtime)
+    67                                  
+    68                                  
+    69                                  section .text
+    70                                  
+    71                                  global _start
+    72                                  extern init,msquared
+    73                                  extern bin_str
+    74                                  extern seed
+    75                                  
+    76                                  ;------------------------------------------------------------------------------
+    77                                  ; PROCEDURE:    shuf
+    78                                  ; IN:           eax: address of deck, ecx: times to swap
+    79                                  ; OUT:          none
+    80                                  ; MODIFIES:     eax,ecx
+    81                                  ; CALLS:        msquared
+    82                                  ; DETAILS:      shuffles a deck by swapping random elements a number of times
+    83                                  ;               hardcoded to deal with 16 card decks, since i'm lazy
+    84                                  shuf:
+    85 00000000 53                              push ebx        ; save ebx,edx,edi
+    86 00000001 52                              push edx
+    87 00000002 57                              push edi
+    88 00000003 51                              push ecx
+    89                                  
+    90 00000004 89C7                            mov edi,eax     ; move deck address to edi
+    91                                  
+    92                                  ; get random numbers, corresponding cards, swap, repeat
+    93 00000006 B9E8030000                      mov ecx,N_SWAP  ; put swap counter in ecx
+    94 0000000B E8(00000000)            .swap:  call msquared   ; put first rand num in eax
+    95 00000010 89C3                            mov ebx,eax     ; put first rand in ebx
+    96 00000012 E8(00000000)                    call msquared   ; put second rand num in eax
+    97 00000017 C1E81C                          shr eax,28      ; get 0-16 in eax
+    98 0000001A C1EB1C                          shr ebx,28      ; get 0-16 in ebx
+    99                                  
+   100                                  ; swap cards, repeat
+   101 0000001D 668B1447                        mov dx,word [edi+eax*2]   ; temp store card 1 in edx
+   102 00000021 6687145F                        xchg dx,word [edi+ebx*2]  ; card 1 into new spot, card 2 into temp
+   103 00000025 66891447                        mov word [edi+eax*2],dx   ; card 2 into new spot
+   104 00000029 E2E0                            loop .swap              ; until ecx 0, repeat
+   105                                  
+   106 0000002B 59                              pop ecx
+   107 0000002C 5F                              pop edi         ; restore edi,edx,ebx
+   108 0000002D 5A                              pop edx
+   109 0000002E 5B                              pop ebx
+   110                                  
+   111 0000002F C3                              ret             ; return
+   112                                  ; end of proc shuf
+   113                                  
+   114                                  
+   115                                  ;------------------------------------------------------------------------------
+   116                                  ; PROCEDURE:    turn
+   117                                  ; IN:           eax: address of player
+   118                                  ; OUT:          none
+   119                                  ; MODIFIES:     none
+   120                                  ; CALLS:        msquared
+   121                                  ; DETAILS:      encapsulates dice roll, movement, card pickup, special directions, etc. logs landed on squares
+   122                                  turn:
+   123 00000030 60                              pushad          ; save regs
+   124                                  
+   125 00000031 B903000000                      mov ecx,3       ; start double counter
+   126 00000036 89C7                            mov edi,eax     ; address of player into edi
+   127                                  
+   128                                  ; roll dice
+   129 00000038 E8(00000000)            .roll:   call msquared   ; first rand in eax
+   130 0000003D 89C3                            mov ebx,eax     ; first rand in ebx
+   131 0000003F E8(00000000)                    call msquared   ; second rand in eax
+   132 00000044 C1E81D                          shr eax,29      ; 0-8 in eax
+   133 00000047 C1EB1D                          shr ebx,29      ; 0-8 in ebx
+   134 0000004A 83F806                          cmp eax,6       ; check die 1 for valid number
+   135 0000004D 7203                            jb .noadj1      ; if valid, skip adjustment for die 1
+   136 0000004F 83E806                          sub eax,6       ; make die 1 0-5
+   137 00000052 83FB06                  .noadj1:cmp ebx,6       ; check die 2 for valid number
+   138 00000055 7203                            jb .noadj2      ; if valid, skip adjustment for die 2
+   139 00000057 83EB06                          sub ebx,6       ; make die 2 0-5
+   140 0000005A 40                      .noadj2:inc eax         ; make die 1 1-6
+   141 0000005B 43                              inc ebx         ; make die 2 1-6
+   142                                  
+   143                                  ; log if double
+   144 0000005C 39D8                    .logdub:cmp eax,ebx     ; check dies for double
+   145 0000005E 750E                            jne .nodub      ; if not double, don't care
+   146 00000060 49                              dec ecx         ; decrement double counter
+   147 00000061 0F84F0000000                    jz .jail      ; if 3 doubles, log, go to jail, end turn
+   148 00000067 BD01000000                      mov ebp,1       ; signal double
+   149 0000006C EB05                            jmp .setup      ; go to setup for moving
+   150 0000006E BD00000000              .nodub: mov ebp,0       ; signal no double
+   151                                  
+   152                                  ; set up move based on dice
+   153 00000073 00D8                    .setup: add al,bl       ; put dice sum in al
+   154 00000075 B400                            mov ah,RLT      ; tell mover to move relatively
+   155                                  
+   156                                  ; make move; if special, set up next move
+   157                                  ; switch case for RLT,AST,FOR,NEX
+   158 00000077 80FC00                  .move:  cmp ah,RLT      ; if relative...
+   159 0000007A 7413                            je .rel         ; move relative
+   160 0000007C 80FC01                          cmp ah,AST      ; if absolute...
+   161 0000007F 741A                            je .abs         ; move absolute
+   162 00000081 80FC02                          cmp ah,FOR      ; if force...
+   163 00000084 0F84CD000000                    je .jail        ; move force, end turn
+   164 0000008A 80FC03                          cmp ah,NEX      ; if next...
+   165 0000008D 7410                            je .nex         ; move next
+   166                                  
+   167                                  ; go to spot, with given method, and log change
+   168 0000008F 3C00                    .rel:   cmp al,0            ; if RLT,0...
+   169 00000091 0F84B6000000                    je .cdub            ; then move chain done, check double
+   170 00000097 0007                            add byte [edi],al   ; add relative amount to position
+   171 00000099 EB39                            jmp .modlog         ; modulo, log
+   172 0000009B 8807                    .abs:   mov byte [edi],al   ; set position to absolute amount
+   173 0000009D EB35                            jmp .modlog         ; modulo, log
+   174                                  ; figure out which type of next, then iterate through list of type, move to next one
+   175 0000009F 8A1F                    .nex:   mov bl,byte [edi]   ; put player in bl
+   176 000000A1 BAFFFFFFFF                      mov edx,-1          ; set counter for upcoming list iterating (-1 since increments first)
+   177 000000A6 3C00                            cmp al,X_UTIL       ; if next util...
+   178 000000A8 7404                            je .xutil           ; move to next util
+   179 000000AA 3C01                            cmp al,X_RAIL       ; if next rail...
+   180 000000AC 7413                            je .xrail           ; move to next rail
+   181                                  ; iterate through list of rails/utils until greater than player, move to that one
+   182                                  .xutil: 
+   183 000000AE 42                              inc edx                         ; increment util counter
+   184 000000AF 389A[07000000]                  cmp byte [util+edx],bl          ; compare current util with player
+   185 000000B5 76F7                            jna .xutil                      ; if not above, check next one
+   186 000000B7 8A9A[07000000]                  mov bl,byte [util+edx]          ; put the util in bl
+   187 000000BD 881F                            mov byte [edi],bl               ; if greater, set player to that
+   188 000000BF EB13                            jmp .modlog                     ; modulo, log
+   189                                  .xrail:
+   190 000000C1 42                              inc edx                         ; increment rail counter
+   191 000000C2 389A[0A000000]                  cmp byte [rail+edx],bl          ; compare current rail with player
+   192 000000C8 76F7                            jna .xrail                      ; if not above, check next one
+   193 000000CA 8A9A[0A000000]                  mov bl,byte [rail+edx]          ; put the rail in bl
+   194 000000D0 881F                            mov byte [edi],bl               ; if greater, set player to that
+   195 000000D2 EB00                            jmp .modlog                     ; modulo, log
+   196                                  
+   197                                  ; module by 40, then record new position
+   198                                  .modlog:
+   199 000000D4 803F28                          cmp byte [edi],40       ; compare player with 40
+   200 000000D7 7203                            jb .nomod               ; if below, don't modulo
+   201 000000D9 802F28                          sub byte [edi],40       ; we are certain it stays below 80, so just subtract once
+   202 000000DC 31C0                    .nomod: xor eax,eax             ; zero eax for addressing
+   203 000000DE 8A07                            mov al, byte [edi]      ; put player in eax, for addressing
+   204 000000E0 FF0485[00000000]                inc dword [freq+eax*4]  ; log new spot
+   205                                  
+   206                                  ; check if special square
+   207 000000E7 BA08000000                      mov edx,E_SPEC+1        ; set counter for special, twice past last special square
+   208 000000EC 4A                      .cspec: dec edx                 ; decrement special square counter (beforehand since twice past last square)
+   209 000000ED 745E                            jz .cdub                ; (counter ran out) not special, check if double
+   210 000000EF 3A82[FFFFFFFF]                  cmp al,byte [spec+edx-1]; compare player with special square (eax contains player from .modlog; -1 because starts past last square)
+   211 000000F5 75F5                            jne .cspec              ; try again
+   212                                  
+   213                                  ; found a special square, check type
+   214 000000F7 31DB                    .tspec: xor ebx,ebx     ; make ebx 0 for addressing later
+   215 000000F9 4A                              dec edx         ; .cspec checked square one less, so adjust
+   216 000000FA 83FA03                          cmp edx,E_COMM  ; compare player with end of comm chest
+   217 000000FD 720A                            jb .d_comm      ; if on comm square, draw comm
+   218 000000FF 83FA06                          cmp edx,E_CHAN  ; compare player with end of chances
+   219 00000102 7227                            jb .d_chan      ; if on chan square, draw chan
+   220 00000104 83FA07                          cmp edx,E_GJAIL ; compare player with go to jail
+   221 00000107 724E                            jb .jail        ; if on go-to-jail square, go to jail
+   222 00000109 8A1D[4F000000]          .d_comm:mov bl,byte [top_comm]          ; top of comm deck for addressing
+   223 0000010F 668B841B[0F000000]              mov ax,word [comm_c+ebx*2]      ; get top of comm deck into ax
+   224 00000117 86C4                            xchg al,ah                      ; since little endian, swap
+   225 00000119 FE05[4F000000]                  inc byte [top_comm]             ; rotate top of comm_c
+   226 0000011F 8025[4F000000]0F                and byte [top_comm],0b1111      ; modulo top_comm by 16
+   227 00000126 E94CFFFFFF                      jmp .move                       ; move based off card
+   228 0000012B 8A1D[50000000]          .d_chan:mov bl,byte [top_chan]          ; top of chan deck for addressing
+   229 00000131 668B841B[2F000000]              mov ax,word [chan_c+ebx*2]      ; get top of chan deck into ax
+   230 00000139 86C4                            xchg al,ah                      ; since little endian, swap
+   231 0000013B FE05[50000000]                  inc byte [top_chan]             ; rotate top of chan_c
+   232 00000141 8025[50000000]0F                and byte [top_chan],0b1111      ; modulo top_chan by 16
+   233 00000148 E92AFFFFFF                      jmp .move                       ; move based off card
+   234                                  
+   235                                  ; if double, loop back, else end turn
+   236 0000014D 83FD00                  .cdub:  cmp ebp,0               ; check if no double
+   237 00000150 740E                            je .end                 ; if no double, end turn
+   238 00000152 E9E1FEFFFF                      jmp .roll               ; if double, roll again
+   239                                  
+   240                                  ; go to jail; do not fall through here!
+   241 00000157 C6070A                  .jail:  mov byte [edi],JAIL ; go to jail
+   242 0000015A FF05[28000000]                  inc dword [freq+JAIL*4]  ; log jail 
+   243                                  
+   244 00000160 61                      .end:   popad       ; restore regs
+   245 00000161 C3                              ret         ; end turn
+   246                                  ; end of proc turn
+   247                                  
+   248                                  
+   249                                  _start:
+   250                                  ; shuffle two decks of cards
+   251 00000162 E8(00000000)                   call init       ; set seed to time
+   252                                          
+   253                                  ; DEBUGGING CODE STARTS
+   254 00000167 A1[00000000]                    mov eax,[seed]  ; seed in eax
+   255 0000016C BB[A0000000]                    mov ebx,string  ; address of string
+   256 00000171 E8(00000000)                    call bin_str    ; put eax's bin string in variable string
+   257 00000176 C643200A                        mov byte [ebx+32],10
+   258 0000017A C643210A                        mov byte [ebx+33],10
+   259 0000017E 89D9                            mov ecx,ebx
+   260 00000180 B804000000                      mov eax,4
+   261 00000185 BB01000000                      mov ebx,1
+   262 0000018A BA22000000                      mov edx,34
+   263 0000018F CD80                            int 0x80
+   264                                  
+   265                                  
+   266                                  ; DEBUGGING CODE ENDS
+   267                                  
+   268                                  
+   269 00000191 B9E8030000                      mov ecx,N_SWAP  ; how many times to swap
+   270 00000196 B8[0F000000]                    mov eax,comm_c  ; address of comm chest
+   271 0000019B E860FEFFFF                      call shuf       ; shuffle comm chest
+   272 000001A0 B9E8030000                      mov ecx,N_SWAP  ; how many times to swap
+   273 000001A5 B8[2F000000]                    mov eax,chan_c  ; address of chances
+   274 000001AA E851FEFFFF                      call shuf       ; shuffle chances
+   275                                          
+   276                                  ; play N_GAME games with N_ROUND rounds with N_PLAY players
+   277 000001AF BB64000000                      mov ebx,N_GAME  ; counter for games
+   278 000001B4 BA40420F00              .game:  mov edx,N_ROUND ; counter for rounds
+   279 000001B9 B904000000              .round: mov ecx,N_PLAY  ; counter for players (used more often, put in ecx)
+   280 000001BE 8D81[C1000000]          .turn:  lea eax,[play+ecx-1]    ; zero indexed address of player into eax
+   281 000001C4 E867FEFFFF                      call turn       ; make that player have their turn
+   282 000001C9 E2F3                            loop .turn      ; decrement->next player, repeat process, if 0, reset turn
+   283 000001CB 4A                              dec edx         ; 1 round done
+   284 000001CC 75EB                            jnz .round      ; if not done all rounds, repeat
+   285 000001CE 4B                              dec ebx         ; 1 game done
+   286 000001CF 75E3                            jnz .game       ; if not done all games, repeat
+   287                                  
+   288                                  ; print out frequencies
+   289                                  ; get string from frequency
+   290 000001D1 BD00000000                      mov ebp,0       ; set freq index to 0
+   291 000001D6 C605[C0000000]0A                mov byte [string+32],10     ; put newline at end of string
+   292 000001DD 8B04AD[00000000]        p_freq: mov eax,dword [freq+ebp*4]  ; put next frequency in eax        
+   293 000001E4 BB[A0000000]                    mov ebx,string  ; put string address in ebx
+   294 000001E9 E8(00000000)                    call bin_str    ; put eax's bin string in variable string
+   295                                  ; setup sys_write, call
+   296 000001EE 89D9                            mov ecx,ebx     ; put buffer for string in ecx
+   297 000001F0 B804000000                      mov eax,4       ; sys_write
+   298 000001F5 BB01000000                      mov ebx,1       ; stdout
+   299 000001FA BA21000000                      mov edx,33      ; write 32 chars + newline
+   300 000001FF CD80                            int 0x80        ; call sys_write
+   301                                  
+   302 00000201 45                              inc ebp         ; inc freq index
+   303 00000202 83FD28                          cmp ebp,40      ; cmp freq index to 32
+   304 00000205 72D6                            jb p_freq       ; if freq below 32, repeat
+   305                                  
+   306                                  exit:
+   307 00000207 B801000000                      mov eax,1       ; sys_exit
+   308 0000020C BB00000000                      mov ebx,0       ; exit code 0
+   309 00000211 CD80                            int 0x80        ; exit

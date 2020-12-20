@@ -1,0 +1,45 @@
+goal: play monopoly a lot to determine most frequented squares
+
+turn:
+    roll dice
+    log if double
+    on third double, go to jail, log jail, end turn
+    move based on dice
+    log square
+    if special square, get directions (or stay still)
+    follow directions -- if jail, log jail, end turn
+    jump to "log square" until you stop moving (may still be on special square)
+    if last roll was double, jump to "roll dice"
+    end turn
+
+shuffle:
+    set counter
+    get 2 random numbers, under deck size
+    swap components of deck
+    continue until counter runs out
+    
+rand:
+    have seed already in eax
+    square seed into edx,eax
+    mov ax,dx (middle squared, but halves are reversed for convenience)
+    mov [seed],eax
+    return eax
+
+components:
+    2 decks
+    board
+    players
+    dice
+    special squares
+    log
+
+_start:
+    set counter1
+    shuffle 2 decks
+    set counter2
+    initialize players
+    call turn for each player
+    repeat last step until counter2 runs out
+    repeat from "shuffle 2 decks" until counter1 runs out
+
+    print log

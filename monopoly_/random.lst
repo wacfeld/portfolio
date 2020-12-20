@@ -1,0 +1,63 @@
+     1                                  ;------------------------------------------------------------------------------
+     2                                  ; NAME:         random.asm
+     3                                  ; TYPE:         lib
+     4                                  ; DESCRIPTION:  generates pseudo-random numbers
+     5                                  ; BUILD:        nasm -f elf -g -F dwarf random.asm -l random.lst
+     6                                  ;------------------------------------------------------------------------------ 
+     7                                  
+     8                                  section .data
+     9                                  global seed
+    10                                  ;seed dd 0b01011110101111101111010010110110
+    11 00000000 C5870500                weylk   dd 362437   ; an odd number k to form a weyl sequence
+    12 00000004 00000000                weyls   dd 0        ; current value of the weyl sequence
+    13                                  
+    14                                  section .bss
+    15 00000000 <res 00000004>          seed    resd 1      ; 32 bit integer
+    16                                  
+    17                                  section .text
+    18                                  
+    19                                  global init,msquared
+    20                                  
+    21                                  ;------------------------------------------------------------------------------
+    22                                  ; PROCEDURE:    init
+    23                                  ; IN:           none
+    24                                  ; OUT:          none
+    25                                  ; MODIFIES:     seed
+    26                                  ; CALLS:        sys_time
+    27                                  ; DETAILS:      gets current time, sets seed to that
+    28                                  init:
+    29 00000000 60                          pushad          ; save regs
+    30 00000001 B80D000000                  mov eax,13      ; sys_time
+    31 00000006 BB[00000000]                mov ebx,seed    ; destination
+    32 0000000B CD80                        int 0x80        ; make syscall
+    33                                  
+    34 0000000D 61                          popad           ; restore regs
+    35 0000000E C3                          ret             ; leave
+    36                                  
+    37                                  ;------------------------------------------------------------------------------
+    38                                  ; PROCEDURE:    msquared
+    39                                  ; IN:           none
+    40                                  ; OUT:          eax: 32-bit int
+    41                                  ; MODIFIES:     eax
+    42                                  ; CALLS:        none
+    43                                  ; DETAILS:      does middle squared, with weyl sequence
+    44                                  msquared:
+    45 0000000F 52                          push edx        ; save edx, ebx
+    46 00000010 53                          push ebx        
+    47                                  
+    48                                  ; square
+    49 00000011 A1[00000000]                mov eax,[seed]  ; get seed
+    50 00000016 F7E0                        mul eax         ; square seed into edx:eax
+    51                                  
+    52                                  ; weyl
+    53 00000018 8B1D[00000000]              mov ebx,dword [weylk]   ; put weyl k into ebx
+    54 0000001E 011D[04000000]              add dword [weyls],ebx   ; add weyl k to current weyl value
+    55 00000024 0305[04000000]              add eax,dword [weyls]   ; add current weyl value to squared seed
+    56                                  
+    57 0000002A 6689D0                      mov ax,dx       ; have middle, halves reversed, in eax
+    58                                      ;ror eax,16      ; swap reversed halves, have middle in eax
+    59 0000002D A3[00000000]                mov [seed],eax  ; put in new seed
+    60                                  
+    61 00000032 5B                          pop ebx         ; restore ebx,edx
+    62 00000033 5A                          pop edx
+    63 00000034 C3                          ret
