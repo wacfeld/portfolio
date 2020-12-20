@@ -44,6 +44,20 @@ If you are short on time, the most relevant projects are "[Monopoly in x86](#mon
 - Only features not implemented are en-passant, castling, and promotion.
 - Plays at a tolerable speed with look-ahead depth of two.
 
+### Huffman Coding (folder HuffmanCoding2) - c. 2015 (grade 6-7)
+- Language: C++
+- Takes in string of text, determines frequency of each letter, builds Huffman tree, outputs compressed result.
+
+### Twenty Four Tester (folder TwentyFourTester) - c. 2015 (grade 6-7)
+- Language: Java
+- Given four poker card values, determines all possible ways to combine them with '+', '-', '\*', '/' to create the number 24.
+
+### Timing (folder AAA Science I-S) - c. 2015 (grade 6)
+- Language: HTML/Javascript
+- Shows the user a clock for 10 seconds, then asks them to click a button once a second, for 30 seconds.
+- Measures the user's accuracy in counting.
+- In the control group, the clock's interval is 1000 ms. In two other groups, the interval is 950 ms or 1050 ms.
+
 ## Smaller projects (~5 hours or less)
 
 ### Underneath folder "C":
@@ -87,11 +101,11 @@ If you are short on time, the most relevant projects are "[Monopoly in x86](#mon
 #### turingmachine
 - Implements a Turing machine.
 
-### Regex - date unknown
+### Regex (folder regex) - date unknown
 - Language: C++
 - A simple regex matching program (recognizes '?', '\*', '+', '.'), written from scratch.
 
-### Quine - date unknown
+### Quine (folder quine) - date unknown
 - Languages: C++ and Python3
 - Two Quine programs that print their own source code
 - quine.cpp does not seem to work, but quine.py does.
