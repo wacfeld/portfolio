@@ -1,8 +1,7 @@
 # ddy4yu
 Some of Daniel Yu's code. Details listed below.
 
-## MITON (gridfinal)
-- Written: February-March 2018 (grade 9).
+## MITON (folder name gridfinal) - c. Feb-Mar 2018 (grade 9)
 - Language: Python 3.
 - a.k.a. Multi-Intersection Traffic Optimization Using Neural Networks. Keras was used for the neural networks, but everything else was done from scratch.
 - Won a gold medal at WWSEF 2018.
@@ -15,3 +14,7 @@ Some of Daniel Yu's code. Details listed below.
 - virtual.py defines classes ZebraCrossing, Sidewalk, Portal (each Car/Pedestrian is spawned at one Portal, then drives/walks to another Portal, and is destroyed, akin to entering and leaving a group of intersections), MindController (which spawns/destroys Cars/Pedestrians, makes them start, accelerate, stop, etc.).
 - saves/ contains various generations of the neural network, as well as a graph of the network's improvement over time.
 - Trained for approximately 12 hours.
+
+## Netflix Ratings (folder chrome-extension) - c. June 2018 (grade 9)
+- Language: Javascript/HTML
+- A Chrome extension for Netflix, which detects when the user hovers over a thumbnail, searches Google for the movie/show, and displays its rating next to the thumbnail.
