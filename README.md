@@ -44,6 +44,12 @@ If you are short on time, the most relevant projects are "[Monopoly in x86](#mon
 - Only features not implemented are en-passant, castling, and promotion.
 - Plays at a tolerable speed with look-ahead depth of two.
 
+### Neuron Simulation (folder NeuronSim) - c. Jan-Apr 2016 (grade 7)
+- Language: Java
+- Mimicks an action potential in an actual neuron.
+- Times how long it takes for the action potential to travel, depending on speed of diffusion.
+- Won a pewter medal at WWSEF 2016.
+
 ### Huffman Coding (folder HuffmanCoding2) - c. 2015 (grade 6-7)
 - Language: C++
 - Takes in string of text, determines frequency of each letter, builds Huffman tree, outputs compressed result.
