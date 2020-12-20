@@ -3,17 +3,17 @@ Some of Daniel Yu's code. Details listed below. Sorted by date, latest to earlie
 
 ## Larger projects (~5 hours or more)
 
-### RC5 - c. July 2020 (grade 12)
+### RC5 (folder rc5) - c. July 2020 (grade 12)
 - Language: C
 - A program which encrypts a given file using the RC5 block cipher, ECB mode of operation.
 
-### Monopoly (x86) - c. June 2020 (grade 11)
+### Monopoly in x86 (folder monopoly_) - c. June 2020 (grade 11)
 - Language: x86 assembly (NASM).
 - Like Monopoly (C) below, but in assembly.
 - Everything, including the pseudo-random number generation (Middle Squared Weyl Sequence) is done from scratch.
 - System calls are only used to get the time (to seed the PRNG), and to print out the results.
 
-### Monopoly (C) - c. March 2020 (grade 11)
+### Monopoly in C (folder monopoly) - c. March 2020 (grade 11)
 - Language: C
 - A simulation of the game of Monopoly (everything move-related) to determine the most commonly landed on square.
 - The results for Monpoly (x86) and Monopoly (C) can be found here: https://docs.google.com/spreadsheets/d/1EN8JJjIpM0mYPidNXOiXu0DbAe5UrhyenMqqPiV_Ocw/edit#gid=0
@@ -22,9 +22,9 @@ Some of Daniel Yu's code. Details listed below. Sorted by date, latest to earlie
 - Language: Javascript/HTML
 - A Chrome extension for Netflix, which detects when the user hovers over a thumbnail, searches Google for the movie/show, and displays its rating next to the thumbnail.
 
-### MITON (folder name gridfinal) - c. Feb-Mar 2018 (grade 9)
+### MITON (folder gridfinal) - c. Feb-Mar 2018 (grade 9)
 - Language: Python 3.
-- a.k.a. Multi-Intersection Traffic Optimization Using Neural Networks. Keras was used for the neural networks, but everything else was done from scratch.
+- a.k.a. *M*ulti-*I*ntersection *T*raffic *O*ptimization using *N*eural networks. Keras was used for the neural networks, but everything else was done from scratch.
 - Won a gold medal at WWSEF 2018.
 - carped.py defines the classes Car and Pedestrian, which drive and walk in the simulation.
 - concrete.py defines classes Intersection, Road, Lane, Middle (the square in the middle of the intesection).
@@ -35,6 +35,12 @@ Some of Daniel Yu's code. Details listed below. Sorted by date, latest to earlie
 - virtual.py defines classes ZebraCrossing, Sidewalk, Portal (each Car/Pedestrian is spawned at one Portal, then drives/walks to another Portal, and is destroyed, akin to entering and leaving a group of intersections), MindController (which spawns/destroys Cars/Pedestrians, makes them start, accelerate, stop, etc.).
 - saves/ contains various generations of the neural network, as well as a graph of the network's improvement over time.
 - Trained for approximately 12 hours.
+
+### Chess Computer (folder chesscomputer) - c. May 2017 (grade 8)
+- Language: Python 3.
+- Uses minimax (cost function based on raw material) to play chess against the user.
+- Only features not implemented are en-passant, castling, and promotion.
+- Plays at a tolerable speed with look-ahead depth of two.
 
 ## Smaller projects (~5 hours or less)
 
