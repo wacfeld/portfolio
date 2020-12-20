@@ -26,7 +26,8 @@ If you are short on time, the most relevant projects are "[Monopoly in x86](#mon
 
 ### MITON (folder gridfinal) - c. Feb-Mar 2018 (grade 9) <a id="miton"></a>
 - Language: Python 3.
-- a.k.a. *M*ulti-*I*ntersection *T*raffic *O*ptimization using *N*eural networks. Keras was used for the neural networks, but everything else was done from scratch.
+- a.k.a. *M*ulti-*I*ntersection *T*raffic *O*ptimization using *N*eural networks.
+- Keras was used for the neural networks, but everything else was done from scratch.
 - Won a gold medal at WWSEF 2018.
 - carped.py defines the classes Car and Pedestrian, which drive and walk in the simulation.
 - concrete.py defines classes Intersection, Road, Lane, Middle (the square in the middle of the intesection).
@@ -43,6 +44,13 @@ If you are short on time, the most relevant projects are "[Monopoly in x86](#mon
 - Uses minimax (cost function based on raw material) to play chess against the user.
 - Only features not implemented are en-passant, castling, and promotion.
 - Plays at a tolerable speed with look-ahead depth of two.
+
+### Vision Accuracy (code has bene lost) - c. Jan-Apr 2017 (grade 8)
+- Language: Javascript/HTML
+- Shows user series of ~30-40 dots with delay in between on screen, either at the fovea or at the maximum rod density area of their vision.
+- User counts number of dots.
+- Tests how area of vision impacts person's accuracy in detecting change.
+- Won a gold medal at WWSEF 2017.
 
 ### Neuron Simulation (folder NeuronSim) - c. Jan-Apr 2016 (grade 7)
 - Language: Java
