@@ -1,4 +1,4 @@
-# ddyu4
+# ddy4yu
 Some of Daniel Yu's code. Details listed below.
 
 ## MITON (gridfinal)
