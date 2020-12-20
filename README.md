@@ -7,9 +7,16 @@ Some of Daniel Yu's code. Details listed below. Sorted by date, latest to earlie
 - Language: C
 - A program which encrypts a given file using the RC5 block cipher, ECB mode of operation.
 
+### Monopoly (x86) - c. June 2020 (grade 11)
+- Language: x86 assembly (NASM).
+- Like Monopoly (C) below, but in assembly.
+- Everything, including the pseudo-random number generation (Middle Squared Weyl Sequence) is done from scratch.
+- System calls are only used to get the time (to seed the PRNG), and to print out the results.
+
 ### Monopoly (C) - c. March 2020 (grade 11)
 - Language: C
 - A simulation of the game of Monopoly (everything move-related) to determine the most commonly landed on square.
+- The results for Monpoly (x86) and Monopoly (C) can be found here: https://docs.google.com/spreadsheets/d/1EN8JJjIpM0mYPidNXOiXu0DbAe5UrhyenMqqPiV_Ocw/edit#gid=0
 
 ### Netflix Ratings (folder chrome-extension) - c. June 2018 (grade 9)
 - Language: Javascript/HTML
