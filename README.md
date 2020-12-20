@@ -1,6 +1,10 @@
 # ddy4yu
 Some of Daniel Yu's code. Details listed below.
 
+## Netflix Ratings (folder chrome-extension) - c. June 2018 (grade 9)
+- Language: Javascript/HTML
+- A Chrome extension for Netflix, which detects when the user hovers over a thumbnail, searches Google for the movie/show, and displays its rating next to the thumbnail.
+
 ## MITON (folder name gridfinal) - c. Feb-Mar 2018 (grade 9)
 - Language: Python 3.
 - a.k.a. Multi-Intersection Traffic Optimization Using Neural Networks. Keras was used for the neural networks, but everything else was done from scratch.
@@ -15,6 +19,7 @@ Some of Daniel Yu's code. Details listed below.
 - saves/ contains various generations of the neural network, as well as a graph of the network's improvement over time.
 - Trained for approximately 12 hours.
 
-## Netflix Ratings (folder chrome-extension) - c. June 2018 (grade 9)
-- Language: Javascript/HTML
-- A Chrome extension for Netflix, which detects when the user hovers over a thumbnail, searches Google for the movie/show, and displays its rating next to the thumbnail.
+
+## Quine - date unknown
+- Two Quine programs that print their own source code
+- quine.cpp does not seem to work, but quine.py does.
