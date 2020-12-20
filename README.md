@@ -19,7 +19,11 @@ Some of Daniel Yu's code. Details listed below.
 - saves/ contains various generations of the neural network, as well as a graph of the network's improvement over time.
 - Trained for approximately 12 hours.
 
+## Regex - date unknown
+- Language: C++
+- A simple regex matching program (recognizes '?', '\*', '+', '.'), written from scratch.
 
 ## Quine - date unknown
+- Languages: C++ and Python3
 - Two Quine programs that print their own source code
 - quine.cpp does not seem to work, but quine.py does.
