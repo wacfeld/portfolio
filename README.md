@@ -45,7 +45,7 @@ If you are short on time, the most relevant projects are "[Monopoly in x86](#mon
 - Only features not implemented are en-passant, castling, and promotion.
 - Plays at a tolerable speed with look-ahead depth of two.
 
-### Vision Accuracy (code has bene lost) - c. Jan-Apr 2017 (grade 8)
+### Vision Accuracy (code has been lost) - c. Jan-Apr 2017 (grade 8)
 - Language: Javascript/HTML
 - Shows user series of ~30-40 dots with delay in between on screen, either at the fovea or at the maximum rod density area of their vision.
 - User counts number of dots.
