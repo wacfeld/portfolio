@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Untitled</title>
+		<script src="array-functions2.js"></script>
+		
+		<script>
+			function GetData(student, testnum)
+			{
+				var ret;
+			    if (student.length == 0)
+				{ 
+			        document.getElementById("txtHint").innerHTML = "";
+			        return;
+			    } else {
+			        var xmlhttp = new XMLHttpRequest();
+			        xmlhttp.onreadystatechange = function()
+			        {
+				        //alert("state=" +xmlhttp.readyState + "   status=" + xmlhttp.status + "   Response: " + xmlhttp.responseText);
+				        
+			            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+				        {
+	
+				            //alert(xmlhttp.responseText);
+			                document.getElementById("info").innerHTML = xmlhttp.responseText;
+			                //getres = xmlhttp.responseText;
+							//alert(getres);
+			                //return ret;
+	
+			            }
+			        }
+			        //xmlhttp.open("GET", "http:"+"/" + "/"+"129.97.10.221/GetData.php?student=" + student + "&testnum=" + testnum  , true);
+			        xmlhttp.open("GET", "http://129.97.10.221/GetData.php?student=" + student + "&testnum=" + testnum  , true);
+			        xmlhttp.send();
+					//alert("This has run");
+			     //return ret;   
+			    }
+			}
+		</script>
+		
+		
+		<script>
+			function processData()
+			{
+//alert("Inside processData()");
+				var data = document.getElementById("info").innerHTML;
+				data = data.split(",");
+				data.shift();
+				data.shift();
+//alert("Data=" + data);
+//alert("Data length=" + data.length);
+				data = stringArrayToNumberArray(data,data.length);
+				var average = Math.round(addAllArrayValues(data,data.length) / data.length);
+				var varianceFromNumber = Math.round(calcVarianceFromNumber(data,calcFrom));
+				var deviationFromNumber = Math.round(Math.sqrt(varianceFromNumber));
+//debugger;
+				document.getElementById("containingCanvas").innerHTML = "<canvas id='canvas' width='1870' height='700' style='border:1px dotted black'></canvas>";
+				var getCanvas = document.getElementById("canvas");
+				var ctx = getCanvas.getContext("2d");
+				ctx.fillStyle = "#33CCFF";
+
+				ctx.fillRect(0,700-average*0.233,27,average*0.233);
+				
+//alert("Drawing on canvas");
+				ctx.fillRect(100,700-varianceFromNumber*0.233,27,varianceFromNumber*0.233);
+				
+
+				ctx.fillRect(200,700-deviationFromNumber*0.233,27,deviationFromNumber*0.233);
+
+				ctx.fillStyle = "#000000";
+				ctx.fillText(average,0,600);
+				ctx.fillText("Average",0,580);
+
+				ctx.fillText(varianceFromNumber,100,620);
+				ctx.fillText("Variance from " + calcFrom,100,640);
+				
+				ctx.fillText(deviationFromNumber,200,640);
+				ctx.fillText("Deviation from " + calcFrom,200,660);
+
+				ctx.fillStyle = "#33CCFF";
+				var countByTwoEight = 350;
+				for(i=0;i<data.length+1;i++)
+				{
+					var difference700 = 700 - data[i] * 0.233;
+					ctx.fillRect(countByTwoEight,difference700,27,data[i] * 0.233);
+					
+					countByTwoEight+=28;
+				}
+
+				ctx.fillStyle = "#000000";
+				countByTwoEight = 350;
+				var a = 1;
+				var b;
+				for(i=0;i<data.length;i++)
+				{
+					if(a > 0) b = 600;
+
+					if(a < 0) b = 650;
+					
+					ctx.fillText(data[i],countByTwoEight,b);
+					a*=-1;
+					countByTwoEight+=28;
+				}
+//alert("Come to this point");
+
+				var varianceFromAverage = Math.round(calcVariance(data));
+
+				var deviationFromAverage = Math.round(Math.sqrt(varianceFromAverage));
+
+				countByTwoEight += 150;
+
+				ctx.fillStyle = "#33CCFF";
+				
+				ctx.fillRect(countByTwoEight,700 - varianceFromAverage * 0.233,27,varianceFromAverage * 0.233);
+				ctx.fillStyle = "#000000";
+				ctx.fillText(varianceFromAverage,countByTwoEight,650);
+				ctx.fillText("Variance",countByTwoEight,670);
+				
+				countByTwoEight+=50;
+				ctx.fillStyle = "#33CCFF";
+				ctx.fillRect(countByTwoEight,700 - deviationFromAverage * 0.233,27,deviationFromAverage*0.233);
+				ctx.fillStyle = "#000000";
+				ctx.fillText(deviationFromAverage,countByTwoEight,600);
+				ctx.fillText("Deviation",countByTwoEight,620);
+				//ctx.fillText();
+//alert("Come to this point 2");
+				//null try do this return debugger throw catch break continue var function if else for while true false new
+				countByTwoEight+=100;
+				var meanDeviation = Math.round(calcMeanDeviation(data));
+
+				ctx.fillStyle = "#33CCFF";
+				ctx.fillRect(countByTwoEight,700 - meanDeviation * 0.233,27,meanDeviation * 0.233);
+				ctx.fillStyle = "#000000";
+				ctx.fillText("Mean Deviation",countByTwoEight,600);
+				ctx.fillText(meanDeviation,countByTwoEight,620);
+
+				var meanDeviationFromNumber = Math.round(calcMeanDeviationFromNumber(data,calcFrom));
+				countByTwoEight += 100;
+				ctx.fillStyle = "#33CCFF";
+				ctx.fillRect(countByTwoEight,700 - meanDeviationFromNumber * 0.233,27,meanDeviationFromNumber * 0.233);
+				ctx.fillStyle = "#000000";
+				ctx.fillText("Mean Deviation From " + calcFrom,countByTwoEight,640);
+				ctx.fillText(meanDeviationFromNumber,countByTwoEight,660);
+				
+				function calcVariance(array1)
+				{
+					var variance;
+					var valuesLen = array1.length;
+					var average = addAllArrayValues(array1,valuesLen) / valuesLen;
+					var differenceFromAverage = subtractOneNumberFromArray(array1,average,valuesLen);
+					var differenceSquared = multTwoArrays(array1,array1,valuesLen);
+					variance = addAllArrayValues(differenceSquared,valuesLen)/valuesLen;
+
+					return variance;
+				}
+			}
+		</script>
+	</head>
+	
+	<body>
+		<p id='info'></p>
+		<span id='containingCanvas'>
+			<!-- <cavas id='canvas' width='2000' height='700' style='border:1px dotted black'></canvas> -->
+		</span>
+		<script>
+			var name = prompt("Type in student's name:");
+			var testNumber = prompt("Type in test number:");
+			var calcFrom = prompt("Type the number you want to\nget the variance/deviation from:");
+			testNumber = Number(testNumber);
+			calcFrom = Number(calcFrom);
+
+			document.getElementById("info").innerHTML = 'empty';
+			GetData(name,testNumber);
+
+			var loop = window.setInterval(
+				function()
+				{
+					var cont = document.getElementById("info").innerHTML;
+					if(cont!='empty')
+					{
+//alert("Inside loop's IF");
+						
+						clearInterval(loop);
+						processData();
+					}
+				}
+			,100)
+		</script>
+		
+		
+	</body>
+</html>

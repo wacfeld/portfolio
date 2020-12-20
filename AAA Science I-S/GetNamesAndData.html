@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Untitled</title>
+		<script src='array-functions.js'></script>
+		<script>
+	//alert
+			//getAllData();
+			function createGraph(array1,title,canvasName,containerName,scale,nameArray)
+			{
+				document.getElementById(containerName).innerHTML = "<canvas id='" + canvasName + "' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas>";
+				//document.getElementById("containingCanvas").innerHTML = "<canvas id='canvas' style='border:1px solid black;height:700px;width:1570'>Does not Support</canvas>";
+				var getCanvas = document.getElementById(canvasName);
+				var context = getCanvas.getContext("2d");
+				context.fillStyle = "#33CCFF";
+
+				//context.fillRect(0,0,100,100);
+				var countByTwoEight = 0;
+				for(i=0;i<array1.length;i++)
+				{
+					var difference700 = 700 - (array1[i] * scale);
+					context.fillStyle = "#33CCFF";
+					context.fillRect(countByTwoEight,difference700,27,array1[i] * scale);
+					//alert("difference=" + difference700 + " data=" + intDataArray[i]);
+					countByTwoEight += 28;
+				}
+				var a = 1;
+				var b;
+				countByTwoEight = 0;
+				for(i=0;i<array1.length;i++)
+				{
+					context.fillStyle = "#000000";
+					if(a<0){b=690}else{b=650}
+					context.fillText(array1[i],countByTwoEight,b);
+					countByTwoEight+=28;
+					a*=-1;
+				}
+				a=1;
+				countByTwoEight = 0;
+
+				nameArray = nameArray.split(",");
+//alert("got before for loop");
+				for(i=0;i<20;i++)
+				{
+					var searchTest = searchForStringInsideArray(nameArray,"test")
+					if(searchTest != -1)
+					{
+//alert("inside for loop");
+						nameArray.splice(searchTest,searchTest + 1);
+						countByTwoEight += 28;
+					}
+					else{break;}
+//alert("outside if tag");
+				}
+//alert("got here");
+				for(i=0;i<nameArray.length;i++)
+				{
+					if(a == 1){b = 500;}
+					if(a == 2){b = 520;}
+					if(a == 3){b = 540;}
+					if(a == 4){b = 560;}
+
+					context.fillText(nameArray[i],countByTwoEight,b);
+			//alert("a=" + a + "  b=" + b);
+					if(a == 4){a=1;}else{a++;}
+					countByTwoEight += 28;
+				}
+				
+				context.fillText(canvasName,785,20);
+			}
+		
+			function sleep(milliseconds) {
+				  var start = new Date().getTime();
+				  for (var i = 0; i < 1e7; i++) {
+				    if ((new Date().getTime() - start) > milliseconds){
+				      break;
+				    }
+				  }
+				}
+		
+			var getDataReturn;
+			function GetData(student, testnum)
+			{
+				var ret;
+			    if (student.length == 0)
+				{ 
+			        document.getElementById("txtHint").innerHTML = "";
+			        return;
+			    } else {
+			        var xmlhttp = new XMLHttpRequest();
+			        xmlhttp.onreadystatechange = function()
+			        {
+				        //alert("state=" +xmlhttp.readyState + "   status=" + xmlhttp.status + "   Response: " + xmlhttp.responseText);
+				        
+			            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+				        {
+	
+				            //alert(xmlhttp.responseText);
+			                getDataReturn = xmlhttp.responseText;
+			                //getres = xmlhttp.responseText;
+							//alert(getres);
+			                //return ret;
+	
+			            }
+			        }
+			//alert("student="+student + " testnum="+testnum);        
+			        //xmlhttp.open("GET", "http:"+"/" + "/"+"129.97.10.221/GetData.php?student=" + student + "&testnum=" + testnum  , true);
+			        xmlhttp.open("GET", "http://129.97.10.221/GetData.php?student=" + student + "&testnum=" + testnum  , true);
+			        xmlhttp.send();
+					//alert("This has run");
+			     //return ret;   
+			    }
+			}
+
+			function getAllData()
+			{
+	//alert("getAllData");
+				var xmlhttp = new XMLHttpRequest();
+				
+				xmlhttp.onreadystatechange = function()
+				{
+		//alert("reatyState=" + xmlhttp.readyState + "   status=" + xmlhttp.status);
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+			//alert("GetNamesBack");
+						processNames(xmlhttp.responseText);//remember to create function
+					}
+				}
+				xmlhttp.open("GET","http://129.97.10.221/GetAllNames.php",true);
+				xmlhttp.send();
+			}
+
+			function processNames(allNameString)
+			{
+		//alert(allNameString);
+				var nameArray = allNameString.split(",");
+				var numberNames = nameArray.length;
+
+				for(testNumber=0;testNumber<4;testNumber++)
+				{
+					var averageArray = [];
+					var deviationArray = [];
+					var varianceArray = [];
+
+
+					var varianceFromNullArray = [];
+					var varianceFrom950Array = [];
+					var varianceFrom1000Array = [];
+					var varianceFrom1050Array = [];
+
+					var deviationFromNullArray = [];
+					var deviationFrom950Array = [];
+					var deviationFrom1000Array = [];
+					var deviationFrom1050Array = [];
+					
+					
+					for(studentIndex=0;studentIndex<numberNames;studentIndex++)
+					{
+						if(nameArray[studentIndex].search("test") == -1)
+						{
+							
+							getDataReturn = "empty";
+
+							GetData(nameArray[studentIndex],testNumber);
+
+							sleepcount = 0;
+							
+							while(getDataReturn == 'empty')
+							{
+								
+					alert("Waiting for data for student: " +  studentIndex + ", test number " + testNumber + "\nPlease click to continue.");
+								//sleep(1200);
+								//sleepcount += 1;		
+							}
+
+							
+					//alert("studentI=" + studentIndex + " testNum=" + testNumber);
+							var arrayDurations = getDataReturn.split(",");
+					//alert("arrayDur=" + arrayDurations);
+							arrayDurations.shift();
+							arrayDurations.shift();
+							var valuesLen = arrayDurations.length;
+
+							
+							if(arrayDurations.length > 20)
+							{
+								arrayDurations = stringArrayToNumberArray(arrayDurations,arrayDurations.length);
+					//alert("arrayDurNumberArray=" + arrayDurations);
+								var variance = Math.round(calcVariance(arrayDurations));
+							//alert("variance=" + variance);
+								var deviation = Math.round(Math.sqrt(variance));
+							
+								var average = Math.round(addAllArrayValues(arrayDurations,valuesLen) / valuesLen);
+
+								var varianceFromNull = Math.round(calcVarianceFromNumber(arrayDurations,950));
+								var varianceFrom950 = Math.round(calcVarianceFromNumber(arrayDurations,950));
+								var varianceFrom1000 = Math.round(calcVarianceFromNumber(arrayDurations,1000));
+								var varianceFrom1050 = Math.round(calcVarianceFromNumber(arrayDurations,1050));
+
+								var deviationFromNull = Math.round(Math.sqrt(varianceFromNull));
+								var deviationFrom950 = Math.round(Math.sqrt(varianceFrom950));
+								var deviationFrom1000 = Math.round(Math.sqrt(varianceFrom1000));
+								var deviationFrom1050 = Math.round(Math.sqrt(varianceFrom1050));
+
+								
+											
+								averageArray[studentIndex] = average;
+								deviationArray[studentIndex] = deviation;
+								varianceArray[studentIndex] = variance;
+
+								varianceFromNullArray[studentIndex] = varianceFromNull;
+								varianceFrom950Array[studentIndex] = varianceFrom950;
+								varianceFrom1000Array[studentIndex] = varianceFrom1000;
+								varianceFrom1050Array[studentIndex] = varianceFrom1050;
+
+								deviationFromNullArray[studentIndex] = deviationFromNull;
+								deviationFrom950Array[studentIndex] = deviationFrom950;
+								deviationFrom1000Array[studentIndex] = deviationFrom1000;
+								deviationFrom1050Array[studentIndex] = deviationFrom1050;
+								
+					//alert("average=" + average);
+								/*var getCanvas = document.getElementById("canvas");
+								var context = getCanvas.getContext("2d");
+								context.fillStyle = "33CCFF";
+	
+								var difference700 = 700 - deviation;
+								var countByTwoEight = 0;
+								for(k=0;k<valuesLen;k++)
+								{
+									context.fillRect(countByTwoEight,difference700,27,deviation);
+								}*/
+								
+							}
+							else
+							{
+								averageArray[studentIndex] = 0;
+								deviationArray[studentIndex] = 0;
+								varianceArray[studentIndex] = 0;
+
+								varianceFromNullArray[studentIndex] = 0;
+								varianceFrom950Array[studentIndex] = 0;
+								varianceFrom1000Array[studentIndex] = 0;
+								varianceFrom1050Array[studentIndex] = 0;
+
+								deviationFromNullArray[studentIndex] = 0;
+								deviationFrom950Array[studentIndex] = 0;
+								deviationFrom1000Array[studentIndex] = 0;
+								deviationFrom1050Array[studentIndex] = 0;
+							}
+						}
+					}
+//alert("Come to this point");
+					createGraph(averageArray,"Average for Test #" + testNumber,"Average__Test__" + testNumber,"average_test_" + testNumber,0.233,allNameString);
+					createGraph(deviationArray,"Deviation for Test #" + testNumber,"Deviation__Test__" + testNumber,"deviation_test_" + testNumber,0.45,allNameString);
+					createGraph(averageArray,"Variance for Test #" + testNumber,"Variance__Test__" + testNumber,"variance_test_" + testNumber,0.45,allNameString);
+
+					//createGraph(varianceFrom950Array,"Variance for Test #" + testNumber,"Variance__Test__" + testNumber,"variance_test_" + testNumber,0.45,allNameString);
+				}
+			}
+
+			function calcVariance(array1)
+			{
+				var variance;
+				var valuesLen = array1.length;
+				var average = addAllArrayValues(array1,valuesLen) / valuesLen;
+				var differenceFromAverage = subtractOneNumberFromArray(array1,average,valuesLen);
+				var differenceSquared = multTwoArrays(array1,array1,valuesLen);
+				variance = addAllArrayValues(array1,valuesLen)/valuesLen;
+
+				return variance;
+			}
+		</script>
+	</head>
+	
+	<body>
+		<p id='info'></p>
+		
+		
+		<span id='average_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='average_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='average_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='average_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		
+		<span id='variance_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		<span id='deviation_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		
+		
+		<span id='variance_from_950_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_950_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_950_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_950_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		
+		<span id='variance_from_1000_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_1000_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_1000_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_1000_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		
+		<span id='variance_from_1050_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_1050_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_1050_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='variance_from_1050_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		<span id='deviation_from_950_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_950_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_950_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_950_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		
+		<span id='deviation_from_1000_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_1000_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_1000_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_1000_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		
+		<span id='deviation_from_1050_test_0'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_1050_test_1'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_1050_test_2'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		<span id='deviation_from_1050_test_3'>
+			<!-- <canvas id='canvas' width='1570' height='700' style='border:1px solid black'>If you see this text, your browser does not support the canvas tag.</canvas> -->
+		</span>
+		
+		
+		
+		
+		<script>
+	//alert("start");
+			getAllData();
+			
+		</script>
+	</body>
+</html>
