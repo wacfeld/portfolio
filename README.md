@@ -5,7 +5,7 @@ Some of Daniel Yu's code. Details listed below. Sorted by date, latest to earlie
 
 ### RC5 - c. July 2020 (grade 11)
 - Language: C
-- A program which encrypts a given file using the RC5 block cipher.
+- A program which encrypts a given file using the RC5 block cipher, ECB mode of operation.
 
 ### Monopoly (C) - c. March 2020 (grade 11)
 - Language: C
