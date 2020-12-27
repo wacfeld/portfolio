@@ -1,7 +1,8 @@
 # dd4yu
 Some of Daniel D. Yu's code. Details listed below. Sorted by date, latest to earliest.
 
-If you are short on time, the most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#monc)", "[MITON](#miton)", "[Chess Computer](#chessc)".
+## If you are short on time
+The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#monc)", "[MITON](#miton)", and "[Chess Computer](#chessc)".
 
 ## Larger projects (~5 hours or more)
 
