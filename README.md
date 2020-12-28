@@ -105,7 +105,7 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 - Figures out the likelihood of winning a battle in the board game Risk, given the number of troops on each side.
 - Uses the Monte Carlo method
 #### sqrt
-- Irrelevant name -- does not actually square root.
+- Inaccurate name -- does not actually square root.
 - Using gradient descent, finds the extrema of a given quintic polynomial.
 #### stack
 - A proof-of-concept a variable-type stack in C, which unlike C++ has no templates.
