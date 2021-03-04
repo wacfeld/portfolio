@@ -1,0 +1,50 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ADD	main.c	/^enum mod{SET, ADD};$/;"	e	enum:mod	file:
+CAL	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	e	enum:mode	file:
+ERR	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	e	enum:mode	file:
+HELP	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	e	enum:mode	file:
+LINELEN	main.c	5;"	d	file:
+MAXACTS	main.c	6;"	d	file:
+MAXLINES	main.c	7;"	d	file:
+QUIT	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	e	enum:mode	file:
+REREAD	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	e	enum:mode	file:
+SET	main.c	/^enum mod{SET, ADD};$/;"	e	enum:mod	file:
+SPEC	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	e	enum:mode	file:
+SUM	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	e	enum:mode	file:
+activity	main.c	/^typedef struct activity$/;"	s	file:
+activity	main.c	/^} activity;$/;"	t	typeref:struct:activity	file:
+acts	main.c	/^activity acts[MAXACTS];$/;"	v
+addinst	main.c	/^void addinst(char *name, int time)$/;"	f
+buffer	main.c	/^char buffer[MAXLINES][LINELEN]; \/\/ stores infile$/;"	v
+checkflag	main.c	/^int checkflag(char *com, char flag)$/;"	f
+choosemode	main.c	/^enum mode choosemode(char *in)$/;"	f
+curdate	main.c	/^struct tm curdate;$/;"	v	typeref:struct:tm
+datecmp	main.c	/^int datecmp(struct tm t1, struct tm t2)$/;"	f
+freeprev	main.c	/^void freeprev()$/;"	f
+insts	main.c	/^char *insts[MAXACTS];$/;"	v
+insttimes	main.c	/^int insttimes[MAXACTS];$/;"	v
+main	main.c	/^int main(int argc, char *argv[])$/;"	f
+mins	main.c	/^    int mins;$/;"	m	struct:activity	file:
+mod	main.c	/^enum mod{SET, ADD};$/;"	g	file:
+modact	main.c	/^void modact(char *name, enum mod how, int amt)$/;"	f
+mode	main.c	/^enum mode{SPEC, SUM, CAL, HELP, ERR, QUIT, REREAD};$/;"	g	file:
+name	main.c	/^    char *name;$/;"	m	struct:activity	file:
+numacts	main.c	/^int numacts = 0;$/;"	v
+numinsts	main.c	/^int numinsts = 0;$/;"	v
+oldcurdate	main.c	/^struct tm oldcurdate;$/;"	v	typeref:struct:tm
+printsum	main.c	/^void printsum()$/;"	f
+putd	main.c	8;"	d	file:
+readfile	main.c	/^int readfile(char *filename)$/;"	f
+streq	main.c	/^int streq(char *c1, char *c2)$/;"	f
+sumdate	main.c	/^void sumdate()$/;"	f
+today	main.c	/^struct tm *today;$/;"	v	typeref:struct:tm
+trydate	main.c	/^int trydate(char *line)$/;"	f
+tryinst	main.c	/^int tryinst(char *line)$/;"	f
+tryrange	main.c	/^int tryrange(char *line, int detail)$/;"	f
+update	main.c	/^void update(struct tm *timestruct)$/;"	f
+wdays	main.c	/^char wdays[][50] = {"sun", "mon", "tue", "wed", "thu", "fri", "sat"};$/;"	v
