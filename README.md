@@ -6,7 +6,7 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 
 ## Larger projects (~5 hours or more)
 
-### Hindsight (folder hindsight) - c. Jan 2021
+### Hindsight (folder hindsight) - c. Jan 2021 (grade 12)
 - Language: C
 - A time-tracking program inspired by the clocking function of Emacs Org-mode.
 - Takes input from text file, processes it, and then prints various kinds of summaries as requested by the user.
