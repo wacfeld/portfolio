@@ -6,22 +6,28 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 
 ## Larger projects (~5 hours or more)
 
-### RC5 (folder rc5) - c. July 2020 (grade 12)
+### Hindsight (folder hindsight) - c. Jan 2021
+- Language: C
+- A time-tracking program inspired by the clocking function of Emacs Org-mode.
+- Takes input from text file, processes it, and then prints various kinds of summaries as requested by the user.
+- The full repository is on Github [here](https://github.com/wacfeldwang333/hindsight).
+
+### RC5 (folder rc5) - c. Jul 2020 (grade 12)
 - Language: C
 - A program which encrypts a given file using the RC5 block cipher, ECB mode of operation.
 
-### Monopoly in x86 (folder monopoly_) - c. June 2020 (grade 11) <a id="mon86"></a>
+### Monopoly in x86 (folder monopoly_) - c. Jun 2020 (grade 11) <a id="mon86"></a>
 - Language: x86 assembly (NASM).
 - Like Monopoly (C) below, but in assembly.
 - Everything, including the pseudo-random number generation (Middle Squared Weyl Sequence) is done from scratch.
 - System calls are only used to get the time (to seed the PRNG), and to print out the results.
 
-### Monopoly in C (folder monopoly) - c. March 2020 (grade 11) <a id="monc"></a>
+### Monopoly in C (folder monopoly) - c. Mar 2020 (grade 11) <a id="monc"></a>
 - Language: C
 - A simulation of the game of Monopoly (everything move-related) to determine the most commonly landed on square.
-- The results for Monpoly (x86) and Monopoly (C) can be found here: https://docs.google.com/spreadsheets/d/1EN8JJjIpM0mYPidNXOiXu0DbAe5UrhyenMqqPiV_Ocw/edit#gid=0
+- The results for Monpoly (x86) and Monopoly (C) can be found [here](https://docs.google.com/spreadsheets/d/1EN8JJjIpM0mYPidNXOiXu0DbAe5UrhyenMqqPiV_Ocw/edit#gid=0).
 
-### Netflix Ratings (folder chrome-extension) - c. June 2018 (grade 9)
+### Netflix Ratings (folder chrome-extension) - c. Jun 2018 (grade 9)
 - Language: Javascript/HTML
 - A Chrome extension for Netflix, which detects when the user hovers over a thumbnail, searches Google for the movie/show, and displays its rating next to the thumbnail.
 
