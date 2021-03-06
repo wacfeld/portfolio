@@ -122,6 +122,11 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 #### turingmachine
 - Implements a Turing machine.
 
+### Euler Circuit (folder eulercircuit) - c. Mar 2021 (grade 12)
+- Given a connected graph with all vertices of even degree, finds a Eulerian Circuit.
+- First finds a closed simple path, then recursively expands it by removing used edges and inserting more closed simple paths, until the graph is exhausted.
+- Time complexity O(number of edges).
+
 ### Regex (folder regex) - date unknown
 - Language: C++
 - A simple regex matching program (recognizes '?', '\*', '+', '.'), written from scratch.
