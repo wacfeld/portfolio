@@ -1,5 +1,6 @@
 # dd4yu
 Some of Daniel D. Yu's code. Details listed below. Sorted by date, latest to earliest.
+(Newer projects are in their [own repositories](https://github.com/wacfeldwang333).)
 
 ## If you are short on time
 The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#monc)", "[MITON](#miton)", and "[Chess Computer](#chessc)".
