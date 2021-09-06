@@ -1,5 +1,5 @@
 # dd4yu
-Some of Daniel D. Yu's code. Details listed below. Sorted by date, latest to earliest.
+Some of Daniel D. Yu's code, from 2015-2021. Details listed below. Sorted by date, latest to earliest.
 (Newer projects are in their [own repositories](https://github.com/wacfeldwang333).)
 
 ## If you are short on time
