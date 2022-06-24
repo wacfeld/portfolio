@@ -12,6 +12,11 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 - A program which allows one to create new [fairy chess](https://en.wikipedia.org/wiki/Fairy_chess) pieces from elementary ones
 - Each piece is a Python function which returns the valid moves it can make, and pieces can be combined/modified with various operations
 
+### [5inarow](https://github.com/wacfeld/5inarow) - Oct. 2021
+- Language: C
+- Work in progress
+- An engine which plays 5 in a row/connect 5 on a go board
+
 ### [Hindsight](https://github.com/wacfeld/hindsight) - c. Jan 2021 (grade 12)
 - Language: C
 - A time-tracking program inspired by the clocking function of Emacs Org-mode.
