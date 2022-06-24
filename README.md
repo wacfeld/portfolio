@@ -7,6 +7,11 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 
 ## Larger projects (~5 hours or more)
 
+### [intri](https://github.com/wacfeld/intri) - May 2022
+- Language: x86 assembly
+- Given three points on the unit sphere, and a third point P, determines whether P is inside the curved triangle with the three points as vertices.
+- Implements cross product within the 8 x87 floating point registers (does not need to store intermediate values in memory)
+
 ### [Fairy Chess](https://github.com/wacfeld/fairy) - Feb. - Mar. 2022
 - Language: Python3
 - A program which allows one to create new [fairy chess](https://en.wikipedia.org/wiki/Fairy_chess) pieces from elementary ones
