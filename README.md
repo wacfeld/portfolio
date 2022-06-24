@@ -1,5 +1,5 @@
 # Portfolio
-Some of Daniel D. Yu's code, from 2015 onward. Details listed below. Projects are ordered newest to oldest.
+Some of Daniel D. Yu's programming projects, from 2015 onward. Details listed below. Projects are ordered newest to oldest.
 Some older projects do not have their own repositories, and can be found in the folders above.
 
 ## If you are short on time
@@ -7,11 +7,10 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 
 ## Larger projects (~5 hours or more)
 
-### Hindsight (folder hindsight) - c. Jan 2021 (grade 12)
+### [Hindsight](https://github.com/wacfeld/hindsight) (folder hindsight) - c. Jan 2021 (grade 12)
 - Language: C
 - A time-tracking program inspired by the clocking function of Emacs Org-mode.
 - Takes input from text file, processes it, and then prints various kinds of summaries as requested by the user.
-- The full repository is on Github [here](https://github.com/wacfeldwang333/hindsight).
 
 ### RC5 (folder rc5) - c. Jul 2020 (grade 12)
 - Language: C
