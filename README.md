@@ -1,6 +1,6 @@
-# dd4yu
-Some of Daniel D. Yu's code, from 2015-2021. Details listed below. Sorted by date, latest to earliest.
-(Newer projects are in their [own repositories](https://github.com/wacfeld).)
+# Portfolio
+Some of Daniel D. Yu's code, from 2015 onward. Details listed below. Projects are ordered newest to oldest.
+Some older projects do not have their own repositories, and can be found in the folders above.
 
 ## If you are short on time
 The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#monc)", "[MITON](#miton)", and "[Chess Computer](#chessc)".
