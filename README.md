@@ -107,6 +107,14 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 - A script which, given a file, copies it into a temporary folder with a makefile for that filetype, and provides real-time previews of the resulting output
 - Useful for writing markdown, math notation, [ABC notation](https://abcnotation.com/), etc. and being able to see the output without any manual rendering or extra files.
 
+### [wordladder](https://github.com/wacfeld/wordladder) - Nov. 2021
+- Language: C
+- Given a dictionary, a start word, and an end word of the same length, searches for a [word ladder](https://en.wikipedia.org/wiki/Word_ladder) between the two
+
+### [texttobrainf](https://github.com/wacfeld/texttobrainf) - Jul. 2021
+- Language: C
+- Takes text stream as input, outputs semi-optimized brainf*** code which prints the given text
+
 ### Underneath folder "C":
 - All of these are in the language C, sometimes using Python 3 as well.
 - Most of these are c. 2019-2020.
