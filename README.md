@@ -86,6 +86,11 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 
 ## Smaller projects (~5 hours or less)
 
+### [Unimake](https://github.com/wacfeld/unimake) - Dec. 2021
+- Language: Python3
+- A script which, given a file, copies it into a temporary folder with a makefile for that filetype, and provides real-time previews of the resulting output
+- Useful for writing markdown, math notation, [ABC notation](https://abcnotation.com/), etc. and being able to see the output without any manual rendering or extra files.
+
 ### Underneath folder "C":
 - All of these are in the language C, sometimes using Python 3 as well.
 - Most of these are c. 2019-2020.
