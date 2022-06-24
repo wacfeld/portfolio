@@ -7,6 +7,12 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 
 ## Larger projects (~5 hours or more)
 
+### [comp](https://github.com/wacfeld/comp) - Mar. to Jun. 2022
+- Language: C, x86 assembly
+- A C to x86 assembly compiler, written in C, along with a limited standard library
+- Roughly follows the C90 standard, but is missing some features
+- Was created using [The C Programming Language](https://en.wikipedia.org/wiki/The_C_Programming_Language) and the C90 standard as referenc, as well as limited consultation of GCC gas output, and various sources on the structure of stack frames. No other help was used for the creation of the expression parser or statement parser.
+
 ### [intri](https://github.com/wacfeld/intri) - May 2022
 - Language: x86 assembly
 - Given three points on the unit sphere, and a third point P, determines whether P is inside the curved triangle with the three points as vertices.
