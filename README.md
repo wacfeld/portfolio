@@ -11,6 +11,7 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 - Language: x86 assembly
 - Given three points on the unit sphere, and a third point P, determines whether P is inside the curved triangle with the three points as vertices.
 - Implements cross product within the 8 x87 floating point registers (does not need to store intermediate values in memory)
+- Work in progress
 
 ### [Fairy Chess](https://github.com/wacfeld/fairy) - Feb. - Mar. 2022
 - Language: Python3
@@ -95,6 +96,11 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 - In the control group, the clock's interval is 1000 ms. In two other groups, the interval is 950 ms or 1050 ms.
 
 ## Smaller projects (~5 hours or less)
+
+### [fastm](https://github.com/wacfeld/fastm) - May 2022
+- Language: C, Python3
+- Collection of scripts (some of them not mine) which attempt to provide extremely fast math notation rendering
+- Work in progress
 
 ### [Unimake](https://github.com/wacfeld/unimake) - Dec. 2021
 - Language: Python3
