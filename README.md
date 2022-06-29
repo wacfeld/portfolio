@@ -141,6 +141,7 @@ The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#mo
 - Careful choice of the hash function and dictionary size makes the entries evenly distributed, as the program demonstrates.
 #### knightassassin
 - Brute forces the solution to this puzzle: https://fivethirtyeight.com/features/can-you-solve-the-chess-mystery/
+- I later realized that this solution was incorrect. However the code is still correct.
 #### physics
 - Simulates the collision of two particles
 #### postfix
