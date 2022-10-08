@@ -1,5 +1,5 @@
 # Portfolio
-Some of Daniel D. Yu's programming projects, from 2015 onward. Details listed below. Projects are ordered newest to oldest.
+Some of my (Daniel Yu's) programming projects, from 2015 onward. Details listed below. Projects are ordered newest to oldest.
 Some older projects do not have their own repositories, and can be found in the folders above.
 
 ## If you are short on time
