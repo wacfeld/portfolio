@@ -3,11 +3,11 @@ Some of Daniel D. Yu's programming projects, from 2015 onward. Details listed be
 Some older projects do not have their own repositories, and can be found in the folders above.
 
 ## If you are short on time
-The most relevant projects are "[Monopoly in x86](#mon86)", "[Monopoly in C](#monc)", "[MITON](#miton)", and "[Chess Computer](#chessc)".
+The most relevant projects are "[comp](#comp)" (a C compiler), "[Monopoly in x86](#mon86)", "[Monopoly in C](#monc)", "[MITON](#miton)", and "[Chess Computer](#chessc)".
 
 ## Larger projects (~5 hours or more)
 
-### [comp](https://github.com/wacfeld/comp) - Mar. to Jun. 2022
+### [comp](https://github.com/wacfeld/comp) - Mar. to Jun. 2022 <a id="comp"></a>
 - Language: C, x86 assembly
 - A C to x86 assembly compiler, written in C, along with a limited standard library
 - Roughly follows the C90 standard, but is missing some features
