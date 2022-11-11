@@ -1,40 +1,40 @@
-# Portfolio
-Some of my (Daniel Yu's) programming projects, from 2015 onward. Details listed below. Projects are ordered newest to oldest.
-Some older projects do not have their own repositories, and can be found in the folders above.
-
-## If you are short on time
-The most relevant projects are "[comp](#comp)" (a C compiler), "[Monopoly in x86](#mon86)", "[Monopoly in C](#monc)", "[MITON](#miton)", and "[Chess Computer](#chessc)".
+# Daniel Yu's Code
+- Some of my programming projects, from 2015 onward. Details listed below. Projects are ordered newest to oldest.
+- Some older projects do not have their own repositories, and can be found in the folders above.
+- Most of the projects are written in C, x86 assembly, and Python3.
+- Email: `wacfeldwang333@gmail.com`
 
 ## Larger projects (~5 hours or more)
 
-### [comp](https://github.com/wacfeld/comp) - Mar. to Jun. 2022 <a id="comp"></a>
+### [C Compiler from scratch](https://github.com/wacfeld/comp) - Mar. to Jun. 2022 <a id="comp"></a>
 - Language: C, x86 assembly
 - A C to x86 assembly compiler, written in C, along with a limited standard library
 - Roughly follows the C90 standard, but is missing some features
 - Was created using [The C Programming Language](https://en.wikipedia.org/wiki/The_C_Programming_Language) and the C90 standard as reference, as well as limited consultation of GCC gas output, and various sources on the structure of stack frames. No other help was used for the creation of the expression parser or statement parser.
+- See repository for more details
 
-### [intri](https://github.com/wacfeld/intri) - May 2022
+### [Linear Algebra Problem in x86 Assembly](https://github.com/wacfeld/intri) - May 2022
 - Language: x86 assembly
 - Given three points on the unit sphere, and a third point P, determines whether P is inside the curved triangle with the three points as vertices.
 - Implements cross product within the 8 x87 floating point registers (does not need to store intermediate values in memory)
 - Work in progress
 
-### [Fairy Chess](https://github.com/wacfeld/fairy) - Feb. - Mar. 2022
+### [Fairy Chess Pieces](https://github.com/wacfeld/fairy) - Feb. - Mar. 2022
 - Language: Python3
 - A program which allows one to create new [fairy chess](https://en.wikipedia.org/wiki/Fairy_chess) pieces from elementary ones
 - Each piece is a Python function which returns the valid moves it can make, and pieces can be combined/modified with various operations
 
-### [5inarow](https://github.com/wacfeld/5inarow) - Oct. 2021
+### [Gomoku Engine](https://github.com/wacfeld/5inarow) - Oct. 2021
 - Language: C
 - Work in progress
-- An engine which plays 5 in a row/connect 5 on a go board
+- An engine which plays 5 in a row/gomoku on a go board
 
-### [Hindsight](https://github.com/wacfeld/hindsight) - c. Jan 2021 (grade 12)
+### [Hindsight (Time-tracking program)](https://github.com/wacfeld/hindsight) - c. Jan 2021 (grade 12)
 - Language: C
 - A time-tracking program inspired by the clocking function of Emacs Org-mode.
 - Takes input from text file, processes it, and then prints various kinds of summaries as requested by the user.
 
-### RC5 (folder rc5) - c. Jul 2020 (grade 12)
+### RC5 Block Cipher (folder rc5) - c. Jul 2020 (grade 12)
 - Language: C
 - A program which encrypts a given file using the RC5 block cipher, ECB mode of operation.
 
