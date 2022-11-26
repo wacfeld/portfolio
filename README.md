@@ -4,9 +4,16 @@
 - Most of the projects are written in C, x86 assembly, and Python3.
 - Email: `wacfeldwang333@gmail.com`
 
-## Larger projects (~5 hours or more)
+# Highlights
+- [C compiler from scratch](#comp)
+- [Multi-Intersection Traffic Optimization using Neural Networks](#miton)
+- [Chess engine](#chessc)
+- [RC5 block cipher](#rc5)
+- [Modular generalized chess piece library](#fairy)
 
-### [C Compiler from scratch](https://github.com/wacfeld/comp) - Mar. to Jun. 2022 <a id="comp"></a>
+## In Chronological Order
+
+### [comp](https://github.com/wacfeld/comp) - Mar. to Jun. 2022 <a id="comp"></a>
 - Language: C, x86 assembly
 - A C to x86 assembly compiler, written in C, along with a limited standard library
 - Roughly follows the C90 standard, but is missing some features
@@ -19,7 +26,7 @@
 - Implements cross product within the 8 x87 floating point registers (does not need to store intermediate values in memory)
 - Work in progress
 
-### [Fairy Chess Pieces](https://github.com/wacfeld/fairy) - Feb. - Mar. 2022
+### [Fairy Chess Pieces](https://github.com/wacfeld/fairy) - Feb. - Mar. 2022 <a id="fairy"></a>
 - Language: Python3
 - A program which allows one to create new [fairy chess](https://en.wikipedia.org/wiki/Fairy_chess) pieces from elementary ones
 - Each piece is a Python function which returns the valid moves it can make, and pieces can be combined/modified with various operations
@@ -34,7 +41,7 @@
 - A time-tracking program inspired by the clocking function of Emacs Org-mode.
 - Takes input from text file, processes it, and then prints various kinds of summaries as requested by the user.
 
-### RC5 Block Cipher (folder rc5) - c. Jul 2020 (grade 12)
+### RC5 Block Cipher (folder rc5) - c. Jul 2020 (grade 12) <a id="rc5"></a>
 - Language: C
 - A program which encrypts a given file using the RC5 block cipher, ECB mode of operation.
 
@@ -53,10 +60,9 @@
 - Language: Javascript/HTML
 - A Chrome extension for Netflix, which detects when the user hovers over a thumbnail, searches Google for the movie/show, and displays its rating next to the thumbnail.
 
-### MITON (folder gridfinal) - c. Feb-Mar 2018 (grade 9) <a id="miton"></a>
+### Multi-Intersection Traffic Optimization using Neural-Networks (MITON) (folder gridfinal) - c. Feb-Mar 2018 (grade 9) <a id="miton"></a>
 - Language: Python 3.
-- a.k.a. *M*ulti-*I*ntersection *T*raffic *O*ptimization using *N*eural networks.
-- Keras was used for the neural networks, but everything else was done from scratch.
+- Uses Keras to train a neural network to outperform hardcoded traffic light configurations.
 - Won a gold medal at WWSEF 2018.
 - carped.py defines the classes Car and Pedestrian, which drive and walk in the simulation.
 - concrete.py defines classes Intersection, Road, Lane, Middle (the square in the middle of the intesection).
