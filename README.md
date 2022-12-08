@@ -36,31 +36,31 @@
 - Work in progress
 - An engine which plays 5 in a row/gomoku on a go board
 
-### [Hindsight (Time-tracking program)](https://github.com/wacfeld/hindsight) - c. Jan 2021 (grade 12)
+### [Hindsight (Time-tracking program)](https://github.com/wacfeld/hindsight) - c. Jan 2021
 - Language: C
 - A time-tracking program inspired by the clocking function of Emacs Org-mode.
 - Takes input from text file, processes it, and then prints various kinds of summaries as requested by the user.
 
-### RC5 Block Cipher (folder rc5) - c. Jul 2020 (grade 12) <a id="rc5"></a>
+### RC5 Block Cipher (folder rc5) - c. Jul 2020 <a id="rc5"></a>
 - Language: C
 - A program which encrypts a given file using the RC5 block cipher, ECB mode of operation.
 
-### Monopoly in x86 (folder monopoly_) - c. Jun 2020 (grade 11) <a id="mon86"></a>
+### Monopoly in x86 (folder monopoly_) - c. Jun 2020 <a id="mon86"></a>
 - Language: x86 assembly (NASM).
 - Like Monopoly (C) below, but in assembly.
 - Everything, including the pseudo-random number generation (Middle Squared Weyl Sequence) is done from scratch.
 - System calls are only used to get the time (to seed the PRNG), and to print out the results.
 
-### Monopoly in C (folder monopoly) - c. Mar 2020 (grade 11) <a id="monc"></a>
+### Monopoly in C (folder monopoly) - c. Mar 2020 <a id="monc"></a>
 - Language: C
 - A simulation of the game of Monopoly (everything move-related) to determine the most commonly landed on square.
 - The results for Monpoly (x86) and Monopoly (C) can be found [here](https://docs.google.com/spreadsheets/d/1EN8JJjIpM0mYPidNXOiXu0DbAe5UrhyenMqqPiV_Ocw/edit#gid=0).
 
-### Netflix Ratings (folder chrome-extension) - c. Jun 2018 (grade 9)
+### Netflix Ratings (folder chrome-extension) - c. Jun 2018
 - Language: Javascript/HTML
 - A Chrome extension for Netflix, which detects when the user hovers over a thumbnail, searches Google for the movie/show, and displays its rating next to the thumbnail.
 
-### Multi-Intersection Traffic Optimization using Neural-Networks (MITON) (folder gridfinal) - c. Feb-Mar 2018 (grade 9) <a id="miton"></a>
+### Multi-Intersection Traffic Optimization using Neural-Networks (MITON) (folder gridfinal) - c. Feb-Mar 2018 <a id="miton"></a>
 - Language: Python 3.
 - Uses Keras to train a neural network to outperform hardcoded traffic light configurations.
 - Won a gold medal at WWSEF 2018.
@@ -74,34 +74,34 @@
 - saves/ contains various generations of the neural network, as well as a graph of the network's improvement over time.
 - Trained for approximately 12 hours.
 
-### Chess Computer (folder chesscomputer) - c. May 2017 (grade 8) <a id="chessc"></a>
+### Chess Computer (folder chesscomputer) - c. May 2017 <a id="chessc"></a>
 - Language: Python 3.
 - Uses minimax (cost function based on raw material) to play chess against the user.
 - Only features not implemented are en-passant, castling, and promotion.
 - Plays at a tolerable speed with look-ahead depth of two.
 
-### Vision Accuracy (code has been lost) - c. Jan-Apr 2017 (grade 8)
+### Vision Accuracy (code has been lost) - c. Jan-Apr 2017
 - Language: Javascript/HTML
 - Shows user series of ~30-40 dots with delay in between on screen, either at the fovea or at the maximum rod density area of their vision.
 - User counts number of dots.
 - Tests how area of vision impacts person's accuracy in detecting change.
 - Won a gold medal at WWSEF 2017.
 
-### Neuron Simulation (folder NeuronSim) - c. Jan-Apr 2016 (grade 7)
+### Neuron Simulation (folder NeuronSim) - c. Jan-Apr 2016
 - Language: Java
 - Mimicks an action potential in an actual neuron.
 - Times how long it takes for the action potential to travel, depending on speed of diffusion.
 - Won a pewter medal at WWSEF 2016.
 
-### Huffman Coding (folder HuffmanCoding2) - c. 2015 (grade 6-7)
+### Huffman Coding (folder HuffmanCoding2) - c. 2015
 - Language: C++
 - Takes in string of text, determines frequency of each letter, builds Huffman tree, outputs compressed result.
 
-### Twenty Four Tester (folder TwentyFourTester) - c. 2015 (grade 6-7)
+### Twenty Four Tester (folder TwentyFourTester) - c. 2015
 - Language: Java
 - Given four poker card values, determines all possible ways to combine them with '+', '-', '\*', '/' to create the number 24.
 
-### Timing (folder AAA Science I-S) - c. 2015 (grade 6)
+### Timing (folder AAA Science I-S) - c. 2015
 - Language: HTML/Javascript
 - Shows the user a clock for 10 seconds, then asks them to click a button once a second, for 30 seconds.
 - Measures the user's accuracy in counting.
