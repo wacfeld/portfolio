@@ -11,7 +11,8 @@ I can be contacted at `dd4yu@uwaterloo.ca`.
 
 ## [Scheme Interpreter](https://github.com/wacfeld/ploy)
 - Written in C++
-- Implements arithmetic, lambdas, definitions, and other basic syntax/functions of the Scheme dialect of Lisp)
+- Interpreter for the Scheme dialect of Lisp
+- Implements arithmetic, lambdas, definitions, and other basic syntax/functions
 
 ## [Monopoly in x86](https://github.com/wacfeld/portfolio/tree/main/monopoly_)
 - Written in x86 assembly (NASM)
