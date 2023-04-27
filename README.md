@@ -13,18 +13,14 @@ I can be contacted at `dd4yu@uwaterloo.ca`.
 - Written in C++
 - Interpreter for the Scheme dialect of Lisp
 - Implements arithmetic, lambdas, definitions, and other basic syntax/functions
+- Understands what a [Y combinator](https://github.com/wacfeld/ploy/blob/master/Y.png) is
 
 ## [Monopoly in x86](https://github.com/wacfeld/portfolio/tree/main/monopoly_)
 - Written in x86 assembly (NASM)
-- Like Monopoly (C) below, but in assembly
+- Like [Monopoly in C](https://github.com/wacfeld/portfolio#monopoly-in-c) below, but in assembly
 - Everything is done from scratch
 - PRNG uses Middle Squared Weyl Sequence
 - System calls are only used to get the time (to seed the PRNG), and to print out the results.
-
-## [Monopoly in C](https://github.com/wacfeld/portfolio/tree/main/monopoly)
-- Written in C
-- A simulation of the Monopoly board game (including chance cards/community chest cards) to determine the most commonly landed on square.
-- The results for Monpoly (x86) and Monopoly (C) can be found [here](https://docs.google.com/spreadsheets/d/1EN8JJjIpM0mYPidNXOiXu0DbAe5UrhyenMqqPiV_Ocw/edit#gid=0).
 
 ## [Modular Chess Piece Library](https://github.com/wacfeld/fairy)
 - Written in Python3
@@ -34,7 +30,7 @@ I can be contacted at `dd4yu@uwaterloo.ca`.
 ## [Tetris UI and Bot](https://github.com/wacfeld/tetrui)
 - Written in C++
 - Implements singleplayer and versus Guideline Tetris, including SRS, garbage, 7-bag, move reset, and combo recognition
-- Also contains a perfect-clear finder and a bot
+- Also contains a perfect-clear finder and versus bot
 
 ## [Multi-Intersection Traffic Optimization using Neural Networks](https://github.com/wacfeld/portfolio/tree/main/gridfinal)
 - Written in Python 3.
@@ -63,6 +59,11 @@ I can be contacted at `dd4yu@uwaterloo.ca`.
 - Written in C
 - A time-tracking program inspired by the clocking function of Emacs Org-mode.
 - Takes input from text file, processes it, and then prints various kinds of summaries as requested by the user.
+
+## [Monopoly in C](https://github.com/wacfeld/portfolio/tree/main/monopoly)
+- Written in C
+- A simulation of the Monopoly board game (including chance cards/community chest cards) to determine the most commonly landed on square.
+- The results for Monpoly (x86) and Monopoly (C) can be found [here](https://docs.google.com/spreadsheets/d/1EN8JJjIpM0mYPidNXOiXu0DbAe5UrhyenMqqPiV_Ocw/edit#gid=0).
 
 ## [RC5 Block Cipher](https://github.com/wacfeld/portfolio/tree/main/rc5)
 - Written in C
