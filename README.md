@@ -2,8 +2,8 @@
 Some of my programming projects.
 I can be contacted at `dd4yu@uwaterloo.ca`.
 
-## [ULTRAKILL Mod](https://github.com/wacfeld/UKML)
-- A mod written in C# for the Unity game ULTRAKILL
+## [Ultrakill Mod](https://github.com/wacfeld/UKML)
+- A mod written in C# for the Unity game Ultrakill
 - Patches game methods at runtime to modify enemy behaviour and add new behaviours
 
 ## [Forecast Evaluation](https://github.com/phac-nml-phrsd/casteval)
