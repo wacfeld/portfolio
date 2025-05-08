@@ -11,6 +11,7 @@ I can be contacted at `dd4yu@uwaterloo.ca`.
 - Flexibly accepts forecasts as either a set of individual model realizations or as the summary of an ensemble of realizations via quantiles at each time point
 - Includes support for multiple common scoring methods
 - Provides a suite of visualization tools to help assess forecast and scoring performance
+- Written as part of an internship at the Public Health Agency of Canada
 
 ## [C Compiler](https://github.com/wacfeld/comp)
 - Written in C, x86 assembly
