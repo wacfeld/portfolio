@@ -1,6 +1,16 @@
 # Daniel Yu's Code
-Some of my programming projects, from 2015 onward.
+Some of my programming projects.
 I can be contacted at `dd4yu@uwaterloo.ca`.
+
+## [ULTRAKILL Mod](https://github.com/wacfeld/UKML)
+- A mod written in C# for the Unity game ULTRAKILL
+- Patches game methods at runtime to modify enemy behaviour and add new behaviours
+
+## [Forecast Evaluation](https://github.com/phac-nml-phrsd/casteval)
+- An R package which facilitates the evaluation of time series forecasts
+- Flexibly accepts forecasts as either a set of individual model realizations or as the summary of an ensemble of realizations via quantiles at each time point
+- Includes support for multiple common scoring methods
+- Provides a suite of visualization tools to help assess forecast and scoring performance
 
 ## [C Compiler](https://github.com/wacfeld/comp)
 - Written in C, x86 assembly
